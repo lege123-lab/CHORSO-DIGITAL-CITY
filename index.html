@@ -287,15 +287,42 @@ function showPage(id){
  if(id==="admin")refreshAdmin();
 }
 function renderServices(){
+ 
+function renderServices(){
  const html=services.map((s,i)=>`
- <div class="card service" role="button" tabindex="0" onclick="serviceInfo(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();serviceInfo(${i})}">
-  <div class="service-icon">${s[0]}</div>
-  <h3>${s[1]}</h3>
-  <p>${s[2]}</p>
-  <strong style="color:#075e54">ዝርዝር ይመልከቱ ←</strong>
- </div>`).join("");
- document.getElementById("homeServices").innerHTML=html;
- document.getElementById("allServices").innerHTML=html;
+  <div class="card service"
+       role="button"
+       tabindex="0"
+       data-service-index="${i}">
+   <div class="service-icon">${s[0]}</div>
+   <h3>${s[1]}</h3>
+   <p>${s[2]}</p>
+   <strong style="color:#075e54">ዝርዝር ይመልከቱ ←</strong>
+  </div>
+ `).join("");
+
+ ["homeServices","allServices"].forEach(id=>{
+  const container=document.getElementById(id);
+  container.innerHTML=html;
+
+  container.querySelectorAll(".service").forEach(card=>{
+   const openDetail=()=>{
+    const index=Number(card.dataset.serviceIndex);
+    serviceInfo(index);
+   };
+
+   card.addEventListener("click",openDetail);
+
+   card.addEventListener("keydown",event=>{
+    if(event.key==="Enter" || event.key===" "){
+     event.preventDefault();
+     openDetail();
+    }
+   });
+  });
+ });
+}
+
 }
 function serviceInfo(index){
  const s=services[index];
