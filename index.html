@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#075e54">
+<meta name="description" content="CHORSO DIGITAL CITY - የጮርሶ ወረዳ ዲጂታል አገልግሎት">
+<title>CHORSO DIGITAL CITY</title>
+
+<style>
+:root {
+ --green:#075e54;
+ --green2:#0b806e;
+ --gold:#e9b949;
+ --dark:#16352f;
+ --bg:#f3f7f5;
+ --white:#fff;
+ --muted:#71817c;
+ --border:#e3ece8;
+ --shadow:0 5px 20px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,"Noto Sans Ethiopic",sans-serif;
+ background:var(--bg);
+ color:var(--dark);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+header{
+ background:var(--green);
+ color:white;
+ padding:14px 5%;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:12px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+ width:48px;height:48px;border-radius:50%;
+ background:white;color:var(--green);
+ display:grid;place-items:center;
+ font-size:23px;font-weight:bold;
+}
+.brand h2{font-size:19px;margin:0}
+.brand small{color:#d6eee7}
+nav{display:flex;gap:7px;flex-wrap:wrap}
+nav button{
+ border:0;background:transparent;color:white;
+ padding:10px;border-radius:8px;
+}
+nav button:hover{background:#ffffff22}
+.hero{
+ padding:65px 6%;
+ color:white;
+ background:linear-gradient(110deg,#064b43eF,#075e54d9),
+ linear-gradient(45deg,#075e54,#0b806e);
+}
+.hero h1{font-size:clamp(28px,5vw,48px);margin:0 0 15px}
+.hero p{max-width:650px;line-height:1.9}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{
+ border:0;border-radius:9px;padding:12px 18px;
+ font-weight:bold;
+}
+.primary{background:var(--gold);color:#253b30}
+.secondary{background:white;color:var(--green)}
+.outline{background:transparent;border:1px solid var(--green);color:var(--green)}
+.container{max-width:1200px;margin:auto;padding:28px 5%}
+.section-title{margin-bottom:20px}
+.section-title h2{margin:0 0 8px;font-size:25px}
+.section-title p{color:var(--muted);margin:0}
+.stats,.services,.kebeles{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+ gap:16px;
+}
+.card{
+ background:white;border:1px solid var(--border);
+ border-radius:13px;padding:20px;
+ box-shadow:var(--shadow);
+}
+.stat-number{font-size:30px;color:var(--green);font-weight:bold}
+.stat-label{color:var(--muted);margin-top:8px}
+.service{
+ text-align:center;transition:.2s;
+ cursor:pointer;
+}
+.service:hover{transform:translateY(-4px)}
+.service-icon{font-size:32px;margin-bottom:12px}
+.service h3{font-size:17px}
+.service p{font-size:13px;color:var(--muted);line-height:1.7}
+.kebele{
+ display:flex;align-items:center;gap:12px;
+ border:1px solid var(--border);
+ border-radius:10px;padding:14px;background:white;
+}
+.kebele-number{
+ background:#e5f3ee;color:var(--green);
+ width:35px;height:35px;border-radius:9px;
+ display:grid;place-items:center;font-weight:bold;
+}
+.notice{
+ border-left:4px solid var(--gold);
+ background:white;padding:17px;margin-bottom:12px;
+ border-radius:8px;box-shadow:var(--shadow);
+}
+.form-box{
+ background:white;padding:22px;border-radius:13px;
+ box-shadow:var(--shadow);max-width:700px;
+}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:bold;margin-bottom:7px}
+.field input,.field textarea,.field select{
+ width:100%;padding:12px;border:1px solid #ccd9d4;
+ border-radius:8px;background:white;
+}
+.field textarea{min-height:110px;resize:vertical}
+.hidden{display:none!important}
+footer{
+ background:#123b34;color:white;
+ text-align:center;padding:30px 15px;
+ margin-top:35px;line-height:2;
+}
+footer small{color:#c4ddd5}
+.panel-title{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;flex-wrap:wrap;
+ margin-bottom:20px;
+}
+.table-wrap{overflow-x:auto;background:white;border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:550px}
+th,td{padding:13px;text-align:left;border-bottom:1px solid var(--border)}
+th{background:#eaf4f0;color:var(--green)}
+.status{color:#a36b00;background:#fff2cf;padding:5px 9px;border-radius:15px;font-size:12px}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.admin-action{
+ padding:17px;border:1px solid var(--border);
+ border-radius:10px;background:white;text-align:center;
+ color:var(--green);font-weight:bold;
+}
+#toast{
+ position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+ background:#173b33;color:white;padding:13px 20px;
+ border-radius:10px;display:none;z-index:99;
+ max-width:90%;text-align:center;
+}
+@media(max-width:600px){
+ header{padding:12px 4%}
+ nav{width:100%;overflow-x:auto}
+ nav button{white-space:nowrap;font-size:12px}
+ .hero{padding:45px 5%}
+ .container{padding:24px 4%}
+ .brand h2{font-size:16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="brand">
+  <div class="logo">C</div>
+  <div>
+   <h2>CHORSO DIGITAL CITY</h2>
+   <small>የጮርሶ ወረዳ ዲጂታል አገልግሎት</small>
+  </div>
+ </div>
+
+ <nav>
+  <button onclick="showPage('home')">መነሻ</button>
+  <button onclick="showPage('services')">አገልግሎቶች</button>
+  <button onclick="showPage('kebeles')">ቀበሌዎች</button>
+  <button onclick="showPage('news')">ዜና</button>
+  <button onclick="showPage('complaint')">ቅሬታ</button>
+  <button onclick="showPage('admin')">አስተዳደር</button>
+ </nav>
+</header>
+
+<main id="home" class="page">
+
+ <section class="hero">
+  <h1>እንኳን ወደ CHORSO DIGITAL CITY በደህና መጡ!</h1>
+  <p>
+   የጮርሶ ወረዳ ዲጂታል አገልግሎት ማዕከል።
+   የመንግሥት አገልግሎቶችን በቀላሉ ለማግኘት፣
+   መረጃ ለመከታተልና ከአስተዳደሩ ጋር
+   ለመገናኘት የተዘጋጀ ዘመናዊ መድረክ።
+  </p>
+  <div class="hero-buttons">
+   <button class="btn primary" onclick="showPage('services')">አገልግሎት ያግኙ</button>
+   <button class="btn secondary" onclick="showPage('complaint')">ቅሬታ ያቅርቡ</button>
+  </div>
+ </section>
+
+ <section class="container">
+  <div class="section-title">
+   <h2>የወረዳው አጠቃላይ መረጃ</h2>
+   <p>የጮርሶ ወረዳ ዲጂታል መረጃ ማዕከል</p>
+  </div>
+  <div class="stats">
+   <div class="card">
+    <div class="stat-number">13</div>
+    <div class="stat-label">ቀበሌዎች</div>
+   </div>
+   <div class="card">
+    <div class="stat-number">01</div>
+    <div class="stat-label">ዲጂታል የአገልግሎት ማዕከል</div>
+   </div>
+   <div class="card">
+    <div class="stat-number">24/7</div>
+    <div class="stat-label">የመረጃ መዳረሻ</div>
+   </div>
+   <div class="card">
+    <div class="stat-number">Digital</div>
+    <div class="stat-label">የአገልግሎት ሥርዓት</div>
+   </div>
+  </div>
+ </section>
+
+ <section class="container">
+  <div class="section-title">
+   <h2>ዋና ዋና አገልግሎቶች</h2>
+   <p>ለወረዳው ነዋሪዎች የተዘጋጁ አገልግሎቶች</p>
+  </div>
+  <div class="services" id="homeServices"></div>
+ </section>
+
+ <section class="container">
+  <div class="section-title">
+   <h2>የቅርብ ጊዜ ማስታወቂያዎች</h2>
+  </div>
+  <div id="homeNews"></div>
+ </section>
+
+</main>
+
+<section id="services" class="page hidden container">
+ <div class="section-title">
+  <h2>የወረዳ አገልግሎቶች</h2>
+  <p>የሚፈልጉትን አገልግሎት ይምረጡ</p>
+ </div>
+ <div class="services" id="allServices"></div>
+</section>
+
+<section id="kebeles" class="page hidden container">
+ <div class="section-title">
+  <h2>የጮርሶ ወረዳ ቀበሌዎች</h2>
+  <p>በወረዳው የሚገኙ 13 ቀበሌዎች</p>
+ </div>
+ <div class="kebeles" id="kebeleList"></div>
+</section>
+
+<section id="news" class="page hidden container">
+ <div class="section-title">
+  <h2>ዜናና ማስታወቂያ</h2>
+  <p>የወረዳው ይፋዊ መረጃዎች</p>
+ </div>
+ <div id="allNews"></div>
+</section>
+
+<section id="complaint" class="page hidden container">
+ <div class="section-title">
+  <h2>የዜጎች ቅሬታና ጥቆማ</h2>
+  <p>ሀሳብዎንና ቅሬታዎን ያቅርቡ</p>
+ </div>
+ <div class="form-box">
+  <form id="complaintForm">
+   <div class="field">
+    <label>ሙሉ ስም</label>
+    <input id="citizenName" required placeholder="ስምዎን ያስገቡ">
+   </div>
+   <div class="field">
+    <label>ስልክ ቁጥር</label>
+    <input id="citizenPhone" type="tel" required placeholder="ስልክ ቁጥር">
+   </div>
+   <div class="field">
+    <label>ቀበሌ</label>
+    <select id="citizenKebele" required></select>
+   </div>
+   <div class="field">
+    <label>የጥያቄው ዓይነት</label>
+    <select id="complaintType" required>
+     <option value="">ይምረጡ</option>
+     <option>ቅሬታ</option>
+     <option>ጥቆማ</option>
+     <option>የአገልግሎት ጥያቄ</option>
+     <option>ሌላ</option>
+    </select>
+   </div>
+   <div class="field">
+    <label>ዝርዝር መልዕክት</label>
+    <textarea id="complaintMessage" required placeholder="መልዕክትዎን ይጻፉ"></textarea>
+   </div>
+   <button class="btn primary" type="submit">መልዕክት ላክ</button>
+  </form>
+  <p style="color:#71817c;font-size:12px;line-height:1.7">
+   ማስታወሻ፦ ይህ የሙከራ ሥሪት ነው፤ መረጃው በዚህ መሣሪያ ላይ ብቻ ይቀመጣል።
+  </p>
+ </div>
+</section>
+
+<section id="admin" class="page hidden container">
+ <div class="panel-title">
+  <div>
+   <h2>የአስተዳዳሪ Dashboard</h2>
+   <p>የወረዳው ዲጂታል መቆጣጠሪያ</p>
+  </div>
+  <button class="btn outline" onclick="adminLogin()">የአስተዳዳሪ መግቢያ</button>
+ </div>
+
+ <div id="adminLoginBox" class="form-box hidden">
+  <h3>የአስተዳዳሪ መግቢያ</h3>
+  <div class="field">
+   <label>የይለፍ ቃል</label>
+   <input id="adminPassword" type="password" placeholder="የይለፍ ቃል">
+  </div>
+  <button class="btn primary" onclick="checkAdmin()">ግባ</button>
+  <p style="font-size:12px;color:#71817c">የሙከራ የይለፍ ቃል: 1234</p>
+ </div>
+
+ <div id="adminPanel" class="hidden">
+  <div class="stats">
+   <div class="card">
+    <div class="stat-number" id="complaintCount">0</div>
+    <div class="stat-label">የተቀበሉ ቅሬታዎች</div>
+   </div>
+   <div class="card">
+    <div class="stat-number">13</div>
+    <div class="stat-label">ቀበሌዎች</div>
+   </div>
+   <div class="card">
+    <div class="stat-number" id="newsCount">0</div>
+    <div class="stat-label">ማስታወቂያዎች</div>
+   </div>
+  </div>
+
+  <h3>የአስተዳዳሪ መሣሪያዎች</h3>
+  <div class="admin-grid">
+   <button class="admin-action" onclick="showAdminSection('complaintsAdmin')">📩 ቅሬታዎች</button>
+   <button class="admin-action" onclick="showAdminSection('newsAdmin')">📢 ዜና ጨምር</button>
+   <button class="admin-action" onclick="showAdminSection('kebeleAdmin')">🏘️ ቀበሌዎች</button>
+  </div>
+
+  <div id="complaintsAdmin" class="admin-section hidden">
+   <h3>የተቀበሉ ቅሬታዎች</h3>
+   <div class="table-wrap">
+    <table>
+     <thead><tr><th>ስም</th><th>ቀበሌ</th><th>ዓይነት</th><th>መልዕክት</th></tr></thead>
+     <tbody id="complaintRows"></tbody>
+    </table>
+   </div>
+  </div>
+
+  <div id="newsAdmin" class="admin-section hidden">
+   <h3>አዲስ ማስታወቂያ ጨምር</h3>
+   <div class="form-box">
+    <div class="field">
+     <label>ርዕስ</label>
+     <input id="newsTitle">
+    </div>
+    <div class="field">
+     <label>ዝርዝር መረጃ</label>
+     <textarea id="newsBody"></textarea>
+    </div>
+    <button class="btn primary" onclick="addNews()">ማስታወቂያ አስገባ</button>
+   </div>
+  </div>
+
+  <div id="kebeleAdmin" class="admin-section hidden">
+   <h3>የቀበሌ ዝርዝር</h3>
+   <div id="adminKebeles"></div>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <h2>CHORSO DIGITAL CITY</h2>
+ <p>የጮርሶ ወረዳ ዲጂታል አገልግሎት</p>
+ <small>Gedeo Zone | South Ethiopia Regional State | Ethiopia</small>
+ <br>
+ <small>© 2026 CHORSO DIGITAL CITY. ሁሉም መብቶች የተጠበቁ ናቸው።</small>
+ <p style="font-size:12px">ይህ የሙከራ የዲጂታል ፕላትፎርም ሥሪት ነው።</p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const kebeles=[
+ "ድባንድቤ",
+ "ቀድዳ ጉበታ",
+ "ጮርሶ 01",
+ "ብሻ ሞራ",
+ "ሞራ ላዮ",
+ "ሀሮ ባዳሜ",
+ "ቦዊቻ",
+ "ኩሩሜ",
+ "ቅሻ",
+ "ራጎ",
+ "ጣካ ድማ",
+ "ሞራ ከተማ",
+ "አበል"
+];
+
+const services=[
+ ["🏛️","የወረዳ አስተዳደር","የወረዳ አስተዳደር መረጃና አገልግሎት"],
+ ["🌾","ግብርና","የግብርና ምክርና የገበሬዎች ድጋፍ"],
+ ["🏥","ጤና","የጤና ተቋማትና መረጃ"],
+ ["🎓","ትምህርት","የትምህርት ተቋማትና መረጃ"],
+ ["💧","ውሃ","የውሃ አገልግሎትና ችግር ሪፖርት"],
+ ["🛣️","መንገድ","የመንገድና ግንባታ መረጃ"],
+ ["🏠","መሬትና ቤቶች","የመሬትና ቤት አገልግሎት"],
+ ["💼","ሥራና ኢኮኖሚ","የሥራ ዕድልና የኢኮኖሚ መረጃ"],
+ ["🐄","እንስሳት ሀብት","የእንስሳት ጤናና ልማት"],
+ ["📣","የዜጎች ቅሬታ","ቅሬታና ጥቆማ ማቅረቢያ"],
+ ["📈","ኢንቨስትመንት","የኢንቨስትመንት መረጃ"],
+ ["🛒","ገበያ","የገበያና የዋጋ መረጃ"]
+];
+
+function getData(key){
+ try{return JSON.parse(localStorage.getItem(key)||"[]")}
+ catch(e){return []}
+}
+function saveData(key,value){
+ localStorage.setItem(key,JSON.stringify(value));
+}
+function notify(message){
+ const t=document.getElementById("toast");
+ t.textContent=message;
+ t.style.display="block";
+ setTimeout(()=>t.style.display="none",3000);
+}
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(id==="admin")refreshAdmin();
+}
+function renderServices(){
+ const html=services.map(s=>`
+ <div class="card service" onclick="serviceInfo('${s[1]}')">
+  <div class="service-icon">${s[0]}</div>
+  <h3>${s[1]}</h3>
+  <p>${s[2]}</p>
+ </div>`).join("");
+ document.getElementById("homeServices").innerHTML=html;
+ document.getElementById("allServices").innerHTML=html;
+}
+function serviceInfo(name){
+ notify(name+"፦ የዚህ አገልግሎት ዝርዝር በቀጣይ ይጨመራል።");
+}
+function renderKebeles(){
+ const html=kebeles.map((k,i)=>`
+ <div class="kebele">
+  <div class="kebele-number">${String(i+1).padStart(2,"0")}</div>
+  <strong>${k}</strong>
+ </div>`).join("");
+ document.getElementById("kebeleList").innerHTML=html;
+ document.getElementById("adminKebeles").innerHTML=html;
+ document.getElementById("citizenKebele").innerHTML=
+ '<option value="">ቀበሌ ይምረጡ</option>'+
+ kebeles.map(k=>`<option>${k}</option>`).join("");
+}
+function renderNews(){
+ const news=getData("ch_news");
+ const html=news.length?news.slice().reverse().map(n=>`
+ <div class="notice">
+  <h3>${escapeHTML(n.title)}</h3>
+  <p>${escapeHTML(n.body)}</p>
+  <small>${escapeHTML(n.date)}</small>
+ </div>`).join(""):'<p>እስካሁን ማስታወቂያ አልተጨመረም።</p>';
+ document.getElementById("homeNews").innerHTML=html;
+ document.getElementById("allNews").innerHTML=html;
+}
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+ })[c]);
+}
+document.getElementById("complaintForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ const item={
+  name:document.getElementById("citizenName").value,
+  phone:document.getElementById("citizenPhone").value,
+  kebele:document.getElementById("citizenKebele").value,
+  type:document.getElementById("complaintType").value,
+  message:document.getElementById("complaintMessage").value,
+  date:new Date().toLocaleString("am-ET")
+ };
+ const data=getData("ch_complaints");
+ data.push(item);
+ saveData("ch_complaints",data);
+ this.reset();
+ notify("መልዕክብዎ በዚህ መሣሪያ ላይ ተመዝግቧል።");
+});
+function adminLogin(){
+ document.getElementById("adminLoginBox").classList.toggle("hidden");
+}
+function checkAdmin(){
+ if(document.getElementById("adminPassword").value==="1234"){
+  document.getElementById("adminPanel").classList.remove("hidden");
+  document.getElementById("adminLoginBox").classList.add("hidden");
+  refreshAdmin();
+  notify("የሙከራ አስተዳዳሪ ገብተዋል።");
+ }else{
+  notify("የይለፍ ቃሉ ትክክል አይደለም።");
+ }
+}
+function showAdminSection(id){
+ document.querySelectorAll(".admin-section").forEach(x=>x.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+}
+function refreshAdmin(){
+ const data=getData("ch_complaints");
+ document.getElementById("complaintCount").textContent=data.length;
+ document.getElementById("newsCount").textContent=getData("ch_news").length;
+ document.getElementById("complaintRows").innerHTML=data.length?
+ data.map(x=>`<tr>
+ <td>${escapeHTML(x.name)}</td>
+ <td>${escapeHTML(x.kebele)}</td>
+ <td>${escapeHTML(x.type)}</td>
+ <td>${escapeHTML(x.message)}</td>
+ </tr>`).join(""):'<tr><td colspan="4">ምንም ቅሬታ የለም።</td></tr>';
+}
+function addNews(){
+ const title=document.getElementById("newsTitle").value.trim();
+ const body=document.getElementById("newsBody").value.trim();
+ if(!title||!body){notify("ርዕስና ዝርዝር መረጃ ያስገቡ።");return}
+ const news=getData("ch_news");
+ news.push({title,body,date:new Date().toLocaleString("am-ET")});
+ saveData("ch_news",news);
+ document.getElementById("newsTitle").value="";
+ document.getElementById("newsBody").value="";
+ renderNews();
+ refreshAdmin();
+ notify("ማስታወቂያው ተጨምሯል።");
+}
+renderServices();
+renderKebeles();
+renderNews();
+</script>
+</body>
+</html>
