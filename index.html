@@ -1,7 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="am">
-<head>
+<head><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#075e54">
@@ -399,7 +401,23 @@ footer small{color:#c5ddd7}
 
 <script>
 "use strict";
+// CHORSO DIGITAL CITY - FIREBASE CONNECTION
+const firebaseConfig = {
+  apiKey: "AIzaSyBQH4-jAMEhcpXkf1caDU_ftMz9-PELpPg",
+  authDomain: "chorso-digital-city.firebaseapp.com",
+  projectId: "chorso-digital-city",
+  storageBucket: "chorso-digital-city.firebasestorage.app",
+  messagingSenderId: "831621292606",
+  appId: "1:831621292606:web:aced98e76c34fb28c8a76f",
+  measurementId: "G-39LS0H4BDV"
+};
 
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+console.log("CHORSO Firebase connected");
 /* =========================
    DATA
 ========================= */
