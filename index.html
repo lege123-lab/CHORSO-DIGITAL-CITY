@@ -450,7 +450,54 @@ function renderServices(){
  document.getElementById("allServices").innerHTML=html;
 }
 function serviceInfo(name){
- notify(name+"፦ የዚህ አገልግሎት ዝርዝር በቀጣይ ይጨመራል።");
+ 
+function serviceInfo(name){
+  const s = services.find(item => item[1] === name);
+  if (!s) return;
+
+  let detail = document.getElementById("serviceDetail");
+
+  if (!detail) {
+    detail = document.createElement("section");
+    detail.id = "serviceDetail";
+    detail.className = "page hidden container";
+    document.body.appendChild(detail);
+  }
+
+  const details = {
+    "የወረዳ አስተዳደር": ["የወረዳ አስተዳደር መረጃ", "የነዋሪዎች ጥያቄና አቤቱታ", "የአስተዳደር አገልግሎት መመሪያ"],
+    "ግብርና": ["የሰብል ምክር", "የዘርና ማዳበሪያ መረጃ", "የገበሬዎች ድጋፍ"],
+    "ጤና": ["የጤና ተቋማት መረጃ", "የጤና አገልግሎት መመሪያ", "የጤና ችግር ሪፖርት"],
+    "ትምህርት": ["የትምህርት ቤቶች መረጃ", "የትምህርት ጥያቄ", "የተማሪዎች ድጋፍ"],
+    "ውሃ": ["የውሃ አገልግሎት መረጃ", "የውሃ ችግር ሪፖርት", "የውሃ ጥያቄ"],
+    "መንገድ": ["የመንገድ ጥገና ጥያቄ", "የመንገድ ልማት መረጃ", "የግንባታ ችግር ሪፖርት"],
+    "መሬትና ቤቶች": ["የመሬት መረጃ", "የቤት ጉዳይ ጥያቄ", "የመሬት ቅሬታ"],
+    "ሥራና ኢኮኖሚ": ["የሥራ ዕድል መረጃ", "የኢኮኖሚ ድጋፍ", "የሥራ ጥያቄ"],
+    "እንስሳት ሀብት": ["የእንስሳት ጤና መረጃ", "የእንስሳት ልማት ምክር", "የእንስሳት ድጋፍ"],
+    "የዜጎች ቅሬታ": ["ቅሬታ ማቅረብ", "ጥቆማ ማስገባት", "የአገልግሎት ጥያቄ ማቅረብ"],
+    "ኢንቨስትመንት": ["የኢንቨስትመንት ዕድሎች", "የመሬትና ሀብት መረጃ", "የኢንቨስትመንት ጥያቄ"],
+    "ገበያ": ["የምርት ዋጋ መረጃ", "የገበያ ሁኔታ", "የአቅርቦት መረጃ"]
+  };
+
+  const list = details[name] || [s[2]];
+
+  detail.innerHTML = `
+    <div class="section-title">
+      <h2>${escapeHTML(s[0])} ${escapeHTML(name)}</h2>
+      <p>${escapeHTML(s[2])}</p>
+    </div>
+    <div class="card">
+      <h3>የአገልግሎቱ ዝርዝር</h3>
+      <ul>${list.map(x => `<li style="padding:10px">${escapeHTML(x)}</li>`).join("")}</ul>
+      <p>ለተጨማሪ መረጃና ጥያቄ ከታች ያለውን የጥያቄ ማቅረቢያ ይጠቀሙ።</p>
+      <button class="btn primary" onclick="showPage('complaint')">ጥያቄ አቅርብ</button>
+      <button class="btn outline" onclick="showPage('services')">ወደ አገልግሎቶች ተመለስ</button>
+    </div>
+  `;
+
+  showPage("serviceDetail");
+}
+
 }
 function renderKebeles(){
  const html=kebeles.map((k,i)=>`
