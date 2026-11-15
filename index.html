@@ -279,12 +279,41 @@ function notify(message){
  setTimeout(()=>t.style.display="none",3000);
 }
 function showPage(id){
- document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+function showPage(id){
+ const pages=document.querySelectorAll(".page");
+
+ pages.forEach(page=>{
+  page.classList.add("hidden");
+ });
+
  const page=document.getElementById(id);
- if(!page){notify("ይህ ገጽ አልተገኘም።");return}
+
+ if(!page){
+  notify("ይህ ገጽ አልተገኘም።");
+  return;
+ }
+
  page.classList.remove("hidden");
- window.scrollTo({top:0,behavior:"smooth"});
- if(id==="admin")refreshAdmin();
+
+ if(id==="news"){
+  renderNews();
+ }
+
+ if(id==="services"){
+  renderServices();
+ }
+
+ if(id==="admin"){
+  refreshAdmin();
+ }
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+}
+
+ 
 }
 function renderServices(){
  
