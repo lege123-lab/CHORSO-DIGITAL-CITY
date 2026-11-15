@@ -112,7 +112,7 @@ main{padding:13px}.hero{padding:32px 19px}.hero h2{font-size:25px}
 <button data-page="kebeles" onclick="showPage('kebeles',this)">ቀበሌዎች</button>
 <button data-page="news" onclick="showPage('news',this)">ዜና</button>
 <button data-page="complaint" onclick="showPage('complaint',this)">ቅሬታ</button>
-<button data-page="admin" onclick="showPage('admin',this)">መግቢያ</button>
+<button data-page="admin" onclick="showPage('admin',this)">አስተዳደር</button>
 </nav>
 </div>
 </header>
@@ -180,18 +180,19 @@ main{padding:13px}.hero{padding:32px 19px}.hero h2{font-size:25px}
 </section>
 
 <section id="admin" class="page">
-<div class="section-title"><h2>የአስተዳዳሪ / ዘርፍ መግቢያ</h2></div>
+<div class="section-title"><h2>የወረዳ አስተዳደርና የዘርፍ መግቢያ</h2></div>
+
 <div id="loginBox" class="form-card">
 <p>በተመዘገበው የኢሜይል አድራሻና ይለፍ ቃል ይግቡ።</p>
 <form id="loginForm">
-<div class="field"><label for="loginEmail">ኢሜይል</label><input id="loginEmail" type="email" required autocomplete="username"></div>
-<div class="field"><label for="loginPassword">ይለፍ ቃል</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+<div class="field"><label for="loginEmail">ኢሜይል</label><input id="loginEmail" type="email" required autocomplete="username" placeholder="የኢሜይል አድራሻ"></div>
+<div class="field"><label for="loginPassword">ይለፍ ቃል</label><input id="loginPassword" type="password" required autocomplete="current-password" placeholder="ይለፍ ቃል"></div>
 <button class="btn" type="submit" id="loginButton">ግባ</button>
 </form>
 </div>
 
 <div id="adminDashboard" class="hidden">
-<div class="section-title"><h2>የአስተዳዳሪ ዳሽቦርድ</h2><button class="btn danger" onclick="logout()">ውጣ</button></div>
+<div class="section-title"><h2>የወረዳ አስተዳደር ዳሽቦርድ</h2><button class="btn danger" onclick="logout()">ውጣ</button></div>
 <div class="admin-tabs">
 <button class="active" onclick="showAdminSection('adminComplaints',this)">ቅሬታዎች</button>
 <button onclick="showAdminSection('adminAddNews',this)">ዜና ጨምር</button>
@@ -285,7 +286,7 @@ const kebeles=[
 ];
 
 const services=[
-{id:"admin",name:"የወረዳ አስተዳደር",icon:"🏛️",desc:"የወረዳ አስተዳደርና የመንግሥት አገልግሎቶች"},
+{id:"admin",name:"አስተዳደር",icon:"🏛️",desc:"የጮርሶ ወረዳ አጠቃላይ አስተዳደርና የመንግሥት አገልግሎቶች"},
 {id:"agriculture",name:"ግብርና",icon:"🌱",desc:"የግብርና ልማት፣ የሰብልና የአርሶ አደር ድጋፍ"},
 {id:"health",name:"ጤና",icon:"🏥",desc:"የጤና አገልግሎትና የጤና መረጃ"},
 {id:"education",name:"ትምህርት",icon:"📚",desc:"የትምህርት ተቋማትና አገልግሎቶች"},
@@ -300,7 +301,7 @@ const services=[
 ];
 
 const serviceDetails={
-admin:["የወረዳ አስተዳደር","የወረዳውን አስተዳደራዊ ጉዳዮችና የሕዝብ ጥያቄዎች ማስተባበር።","የአስተዳደር መረጃ፣ የሕዝብ ጥያቄ።"],
+admin:["አስተዳደር","የጮርሶ ወረዳን አጠቃላይ አስተዳደራዊ ጉዳዮችና የሕዝብ ጥያቄዎች ማስተባበር።","የአስተዳደር መረጃ፣ የሕዝብ ጥያቄ፣ የወረዳ አገልግሎቶች።"],
 agriculture:["ግብርና","የአርሶ አደሮችን የምርት አቅም ማሳደግ።","የሰብል ምርት፣ የቡና ልማት፣ የግብርና ምክር።"],
 health:["ጤና","የሕዝብ ጤናን ለመጠበቅ መረጃ ማቅረብ።","የጤና ጣቢያዎች፣ ክትባት።"],
 education:["ትምህርት","የትምህርት ጥራትና ተደራሽነት ማሻሻል።","ትምህርት ቤቶች፣ ምዝገባ።"],
@@ -369,12 +370,12 @@ document.getElementById("taskService").innerHTML='<option value="">ዘርፍ ይ
 
 /* FIRESTORE NEWS */
 function renderNews(){
-const html=news.length?news.slice().reverse().map(n=>`
+const html=news.length?news.map(n=>`
 <article class="card"><div class="news-date">${escapeHTML(n.category||"ዜና")} • ${escapeHTML(n.date||"")}</div>
 <h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.body)}</p></article>`).join("")
 :'<div class="card empty">እስካሁን የተለቀቀ ዜና የለም።</div>';
 document.getElementById("allNews").innerHTML=html;
-document.getElementById("homeNews").innerHTML=news.length?news.slice(-3).reverse().map(n=>`
+document.getElementById("homeNews").innerHTML=news.length?news.slice(0,3).map(n=>`
 <article class="card"><div class="news-date">${escapeHTML(n.category||"ዜና")} • ${escapeHTML(n.date||"")}</div><h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.body)}</p></article>`).join(""):'<div class="card empty">እስካሁን ዜና አልተጨመረም።</div>';
 document.getElementById("newsCount").textContent=news.length;
 }
@@ -389,19 +390,23 @@ e.preventDefault();
 const button=document.getElementById("complaintSubmit");
 button.disabled=true;
 try{
+const serviceSelect=document.getElementById("citizenService");
 const data={
 name:document.getElementById("citizenName").value.trim(),
 phone:document.getElementById("citizenPhone").value.trim(),
 kebele:document.getElementById("citizenKebele").value,
-serviceId:document.getElementById("citizenService").value,
-service:document.getElementById("citizenService").selectedOptions[0].text,
+serviceId:serviceSelect.value,
+service:serviceSelect.selectedOptions[0].text,
 message:document.getElementById("citizenMessage").value.trim(),
 status:"አዲስ",
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
 };
 if(!data.name||!data.phone||!data.kebele||!data.serviceId||!data.message)throw new Error("ሁሉንም ቦታዎች ይሙሉ።");
 
-/* Anonymous authentication for citizen submissions */
+/* Public complaint submissions use anonymous Firebase authentication */
+if(auth.currentUser&&!auth.currentUser.isAnonymous){
+await auth.signOut();
+}
 if(!auth.currentUser){
 await auth.signInAnonymously();
 }
@@ -410,7 +415,7 @@ this.reset();
 showToast("ቅሬታዎ በስርዓቱ ተመዝግቧል።");
 }catch(error){
 console.error(error);
-showToast("ቅሬታው አልተላከም። "+error.message);
+showToast("ቅሬታው አልተላከም። "+(error.code||error.message));
 }finally{button.disabled=false;}
 });
 
@@ -431,21 +436,36 @@ showToast("መግባት አልተቻለም። ኢሜይልና ይለፍ ቃል �
 }finally{button.disabled=false;}
 });
 
+/* AUTH STATE AND USER ROLE */
 auth.onAuthStateChanged(async user=>{
 currentUser=user;
 currentProfile=null;
+
 if(!user){
 refreshDashboard();
 return;
 }
+
+/* Anonymous users are for citizen complaint submission only.
+   Do not sign them out automatically. */
+if(user.isAnonymous){
+refreshDashboard();
+return;
+}
+
 try{
 const doc=await db.collection("ch_users").doc(user.uid).get();
 if(!doc.exists||doc.data().active!==true){
-showToast("የመግቢያ ፈቃድዎ አልተገኘም።");
+showToast("የመግቢያ ፈቃድዎ አልተገኘም። አስተዳዳሪውን ያነጋግሩ።");
 await auth.signOut();
 return;
 }
 currentProfile=doc.data();
+if(currentProfile.role!=="admin"&&currentProfile.role!=="sector"){
+showToast("የተጠቃሚ ሚና ትክክል አይደለም።");
+await auth.signOut();
+return;
+}
 refreshDashboard();
 }catch(error){
 console.error(error);
@@ -457,22 +477,35 @@ function refreshDashboard(){
 const login=document.getElementById("loginBox");
 const admin=document.getElementById("adminDashboard");
 const sector=document.getElementById("sectorDashboard");
-login.classList.toggle("hidden",!!currentProfile);
-admin.classList.toggle("hidden",!(currentProfile&&currentProfile.role==="admin"));
-sector.classList.toggle("hidden",!(currentProfile&&currentProfile.role==="sector"));
-if(currentProfile&&currentProfile.role==="admin"){
+const isAdmin=!!(currentProfile&&currentProfile.role==="admin");
+const isSector=!!(currentProfile&&currentProfile.role==="sector");
+
+login.classList.toggle("hidden",isAdmin||isSector);
+admin.classList.toggle("hidden",!isAdmin);
+sector.classList.toggle("hidden",!isSector);
+
+if(isAdmin){
 loadAdminComplaints();
 loadAllTasks();
 }
-if(currentProfile&&currentProfile.role==="sector"){
+if(isSector){
 const s=services.find(x=>x.id===currentProfile.serviceId);
 document.getElementById("sectorHeading").textContent="የ"+(s?s.name:"ዘርፍ")+" ዳሽቦርድ";
 loadSectorTasks();
 }
 }
+
 async function logout(){
-try{await auth.signOut();showToast("ከስርዓቱ ወጥተዋል።");}
-catch(e){showToast("መውጣት አልተቻለም።");}
+try{
+await auth.signOut();
+currentProfile=null;
+currentUser=null;
+refreshDashboard();
+showToast("ከስርዓቱ ወጥተዋል።");
+}catch(e){
+console.error(e);
+showToast("መውጣት አልተቻለም።");
+}
 }
 
 /* ADMIN TABS */
@@ -494,14 +527,22 @@ try{
 const snap=await db.collection("ch_complaints").orderBy("createdAt","desc").get();
 complaints=snap.docs.map(d=>({id:d.id,...d.data()}));
 document.getElementById("complaintCount").textContent=complaints.length;
-if(!complaints.length){box.innerHTML='<div class="empty">እስካሁን ቅሬታ አልቀረበም።</div>';return;}
+if(!complaints.length){
+box.innerHTML='<div class="empty">እስካሁን ቅሬታ አልቀረበም።</div>';
+return;
+}
 box.innerHTML=`<table><thead><tr><th>ቀን</th><th>ስም</th><th>ስልክ</th><th>ቀበሌ</th><th>ዘርፍ</th><th>ቅሬታ</th><th>ሁኔታ</th><th>እርምጃ</th></tr></thead><tbody>
-${complaints.map(c=>`<tr><td>${c.createdAt&&c.createdAt.toDate?escapeHTML(c.createdAt.toDate().toLocaleString("am-ET")):""}</td>
+${complaints.map(c=>`<tr>
+<td>${c.createdAt&&c.createdAt.toDate?escapeHTML(c.createdAt.toDate().toLocaleString("am-ET")):""}</td>
 <td>${escapeHTML(c.name)}</td><td>${escapeHTML(c.phone)}</td><td>${escapeHTML(c.kebele)}</td>
 <td>${escapeHTML(c.service)}</td><td>${escapeHTML(c.message)}</td><td>${escapeHTML(c.status||"አዲስ")}</td>
 <td><button class="btn danger" onclick="deleteComplaint('${c.id}')">ሰርዝ</button></td></tr>`).join("")}</tbody></table>`;
-}catch(e){console.error(e);box.innerHTML='<div class="empty">ቅሬታዎችን ማንበብ አልተቻለም።</div>';}
+}catch(e){
+console.error(e);
+box.innerHTML='<div class="empty">ቅሬታዎችን ማንበብ አልተቻለም። Firestore Rules ያረጋግጡ።</div>';
 }
+}
+
 async function deleteComplaint(id){
 if(!currentProfile||currentProfile.role!=="admin")return;
 if(!confirm("ይህን ቅሬታ መሰረዝ ይፈልጋሉ?"))return;
@@ -509,13 +550,19 @@ try{
 await db.collection("ch_complaints").doc(id).delete();
 showToast("ቅሬታው ተሰርዟል።");
 loadAdminComplaints();
-}catch(e){showToast("መሰረዝ አልተቻለም።");}
+}catch(e){
+console.error(e);
+showToast("መሰረዝ አልተቻለም።");
+}
 }
 
 /* ADMIN: ADD NEWS */
 document.getElementById("newsForm").addEventListener("submit",async function(e){
 e.preventDefault();
-if(!currentProfile||currentProfile.role!=="admin"){showToast("የአስተዳዳሪ ፈቃድ ያስፈልጋል።");return;}
+if(!currentProfile||currentProfile.role!=="admin"){
+showToast("የአስተዳዳሪ ፈቃድ ያስፈልጋል።");
+return;
+}
 const item={
 title:document.getElementById("newsTitle").value.trim(),
 category:document.getElementById("newsCategory").value,
@@ -529,7 +576,10 @@ try{
 await db.collection("ch_news").add(item);
 this.reset();
 showToast("ዜናው በተሳካ ሁኔታ ታትሟል።");
-}catch(e){console.error(e);showToast("ዜናውን ማተም አልተቻለም።");}
+}catch(e){
+console.error(e);
+showToast("ዜናውን ማተም አልተቻለም።");
+}
 });
 
 /* ADMIN: ASSIGN TASK */
@@ -540,7 +590,10 @@ const serviceId=document.getElementById("taskService").value;
 const service=services.find(s=>s.id===serviceId);
 const title=document.getElementById("taskTitle").value.trim();
 const description=document.getElementById("taskDescription").value.trim();
-if(!service||!title||!description){showToast("ሁሉንም ቦታዎች ይሙሉ።");return;}
+if(!service||!title||!description){
+showToast("ሁሉንም ቦታዎች ይሙሉ።");
+return;
+}
 try{
 await db.collection("ch_tasks").add({
 title,description,serviceId,serviceName:service.name,
@@ -553,7 +606,11 @@ updatedAt:firebase.firestore.FieldValue.serverTimestamp()
 });
 this.reset();
 showToast("ሥራው ለዘርፉ ተመድቧል።");
-}catch(e){console.error(e);showToast("ሥራ መመደብ አልተቻለም።");}
+loadAllTasks();
+}catch(e){
+console.error(e);
+showToast("ሥራ መመደብ አልተቻለም።");
+}
 });
 
 /* ADMIN: ALL TASKS */
@@ -564,12 +621,18 @@ box.innerHTML='<div class="empty">በመጫን ላይ...</div>';
 try{
 const snap=await db.collection("ch_tasks").orderBy("createdAt","desc").get();
 tasks=snap.docs.map(d=>({id:d.id,...d.data()}));
-if(!tasks.length){box.innerHTML='<div class="empty">ገና ሥራ አልተመደበም።</div>';return;}
+if(!tasks.length){
+box.innerHTML='<div class="empty">ገና ሥራ አልተመደበም።</div>';
+return;
+}
 box.innerHTML=`<table><thead><tr><th>ርዕስ</th><th>ዘርፍ</th><th>ዝርዝር</th><th>ምላሽ</th><th>ሁኔታ</th></tr></thead><tbody>
 ${tasks.map(t=>`<tr><td>${escapeHTML(t.title)}</td><td>${escapeHTML(t.serviceName||t.serviceId)}</td>
 <td>${escapeHTML(t.description)}</td><td>${escapeHTML(t.sectorResponse||"ምላሽ የለም")}</td>
 <td>${escapeHTML(t.sectorStatus||t.status||"")}</td></tr>`).join("")}</tbody></table>`;
-}catch(e){console.error(e);box.innerHTML='<div class="empty">ሥራዎችን ማንበብ አልተቻለም።</div>';}
+}catch(e){
+console.error(e);
+box.innerHTML='<div class="empty">ሥራዎችን ማንበብ አልተቻለም።</div>';
+}
 }
 
 /* SECTOR: OWN TASKS */
@@ -581,24 +644,32 @@ try{
 const snap=await db.collection("ch_tasks")
 .where("serviceId","==",currentProfile.serviceId).get();
 const list=snap.docs.map(d=>({id:d.id,...d.data()}));
-if(!list.length){box.innerHTML='<div class="card empty">ለዘርፉ የተመደበ ሥራ የለም።</div>';return;}
+if(!list.length){
+box.innerHTML='<div class="card empty">ለዘርፉ የተመደበ ሥራ የለም።</div>';
+return;
+}
 box.innerHTML=list.map(t=>`
 <div class="form-card" style="margin:15px 0;max-width:100%">
 <h3>${escapeHTML(t.title)}</h3>
 <p>${escapeHTML(t.description)}</p>
 <p><strong>ሁኔታ፦</strong> ${escapeHTML(t.sectorStatus||t.status||"ተመድቧል")}</p>
-<div class="field"><label>የዘርፉ ምላሽ</label>
+<div class="field"><label for="response_${t.id}">የዘርፉ ምላሽ</label>
 <textarea id="response_${t.id}" maxlength="3000">${escapeHTML(t.sectorResponse||"")}</textarea></div>
-<div class="field"><label>የሥራ ሁኔታ</label>
+<div class="field"><label for="status_${t.id}">የሥራ ሁኔታ</label>
 <select id="status_${t.id}">
+<option value="በመጠባበቅ ላይ" ${t.sectorStatus==="በመጠባበቅ ላይ"?"selected":""}>በመጠባበቅ ላይ</option>
 <option value="በመስራት ላይ" ${t.sectorStatus==="በመስራት ላይ"?"selected":""}>በመስራት ላይ</option>
 <option value="ተጠናቋል" ${t.sectorStatus==="ተጠናቋል"?"selected":""}>ተጠናቋል</option>
 <option value="ችግር አለ" ${t.sectorStatus==="ችግር አለ"?"selected":""}>ችግር አለ</option>
 </select></div>
 <button class="btn" onclick="sendSectorResponse('${t.id}')">ምላሹን ላክ</button>
 </div>`).join("");
-}catch(e){console.error(e);box.innerHTML='<div class="empty">ሥራዎችን ማምጣት አልተቻለም።</div>';}
+}catch(e){
+console.error(e);
+box.innerHTML='<div class="empty">ሥራዎችን ማምጣት አልተቻለም።</div>';
 }
+}
+
 async function sendSectorResponse(id){
 if(!currentProfile||currentProfile.role!=="sector")return;
 const response=document.getElementById("response_"+id).value.trim();
@@ -610,7 +681,11 @@ sectorStatus:status,
 updatedAt:firebase.firestore.FieldValue.serverTimestamp()
 });
 showToast("የዘርፉ ምላሽ ተልኳል።");
-}catch(e){console.error(e);showToast("ምላሹን መላክ አልተቻለም።");}
+loadSectorTasks();
+}catch(e){
+console.error(e);
+showToast("ምላሹን መላክ አልተቻለም።");
+}
 }
 
 /* START */
