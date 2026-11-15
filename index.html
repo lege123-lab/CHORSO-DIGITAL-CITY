@@ -1,858 +1,625 @@
 
 <!DOCTYPE html>
 <html lang="am">
-<head><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#075e54">
-<meta name="description" content="CHORSO DIGITAL CITY - የጮርሶ ወረዳ ዲጂታል አገልግሎት መድረክ">
-<title>CHORSO DIGITAL CITY | ዲጂታል ጮርሶ</title>
+<meta name="description" content="CHORSO DIGITAL CITY - የጮርሶ ወረዳ ዲጂታል አገልግሎት">
+<title>CHORSO DIGITAL CITY</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
 <style>
-:root{
-  --green:#075e54;
-  --green2:#0b806e;
-  --gold:#e6b84a;
-  --ink:#18312d;
-  --muted:#667873;
-  --bg:#f3f7f6;
-  --white:#fff;
-  --border:#e2eae7;
-  --red:#c0392b;
-  --shadow:0 8px 28px rgba(15,60,50,.09);
-}
+:root{--green:#075e54;--green2:#0b806e;--gold:#e6b84a;--ink:#18312d;--muted:#667873;--bg:#f3f7f6;--white:#fff;--border:#e2eae7;--red:#c0392b;--shadow:0 8px 28px rgba(15,60,50,.09)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Arial,"Noto Sans Ethiopic",sans-serif;
-  background:var(--bg);
-  color:var(--ink);
-}
+body{margin:0;font-family:Arial,"Noto Sans Ethiopic",sans-serif;background:var(--bg);color:var(--ink)}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-header{
-  background:var(--green);
-  color:white;
-  position:sticky;
-  top:0;
-  z-index:20;
-  box-shadow:0 3px 12px #0002;
-}
-.topbar{
-  max-width:1200px;
-  margin:auto;
-  padding:13px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
+header{background:var(--green);color:white;position:sticky;top:0;z-index:20;box-shadow:0 3px 12px #0002}
+.topbar{max-width:1200px;margin:auto;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .brand{display:flex;align-items:center;gap:10px}
-.logo{
-  width:45px;height:45px;border-radius:50%;
-  background:white;color:var(--green);
-  display:grid;place-items:center;
-  font-size:23px;font-weight:bold;
-}
+.logo{width:45px;height:45px;border-radius:50%;background:white;color:var(--green);display:grid;place-items:center;font-size:23px;font-weight:bold}
 .brand h1{font-size:17px;margin:0}
 .brand small{display:block;font-size:11px;color:#d7eee8;margin-top:4px}
 nav{display:flex;gap:5px;flex-wrap:wrap}
-nav button{
-  border:0;background:transparent;color:white;
-  padding:9px 10px;border-radius:8px;font-size:13px;
-}
+nav button{border:0;background:transparent;color:white;padding:9px 10px;border-radius:8px;font-size:13px}
 nav button:hover,nav button.active{background:#ffffff24}
 .menu-btn{display:none;background:#ffffff20;color:white;border:0;padding:9px;border-radius:7px}
 main{max-width:1200px;margin:auto;padding:20px 16px;min-height:70vh}
-.page{display:none}
-.page.active{display:block}
-.hero{
-  background:linear-gradient(120deg,#064b43,#0b806e);
-  color:white;border-radius:20px;padding:48px 28px;
-  position:relative;overflow:hidden;
-}
-.hero:after{
-  content:"";position:absolute;width:280px;height:280px;
-  border:35px solid #ffffff13;border-radius:50%;
-  right:-70px;top:-90px;
-}
+.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(120deg,#064b43,#0b806e);color:white;border-radius:20px;padding:48px 28px;position:relative;overflow:hidden}
 .hero h2{font-size:32px;margin:0 0 14px;max-width:700px}
 .hero p{line-height:1.9;max-width:680px;color:#e0f1ed}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.btn{
-  border:0;border-radius:9px;padding:11px 17px;
-  background:var(--green);color:white;font-weight:bold;
-}
+.btn{border:0;border-radius:9px;padding:11px 17px;background:var(--green);color:white;font-weight:bold}
 .btn:hover{filter:brightness(1.1)}
 .btn.gold{background:var(--gold);color:#27342d}
 .btn.light{background:white;color:var(--green)}
 .btn.danger{background:var(--red)}
 .btn.gray{background:#e8efec;color:var(--ink)}
-.section-title{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:10px;margin:30px 0 16px;
-}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:30px 0 16px}
 .section-title h2{font-size:21px;margin:0}
-.section-title button{font-size:13px}
-.stats{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:13px;margin:20px 0;
-}
-.stat{
-  background:white;padding:18px;border-radius:13px;
-  box-shadow:var(--shadow);text-align:center;
-}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0}
+.stat{background:white;padding:18px;border-radius:13px;box-shadow:var(--shadow);text-align:center}
 .stat strong{display:block;color:var(--green);font-size:26px}
 .stat span{font-size:13px;color:var(--muted)}
-.cards{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:15px;
-}
-.card{
-  background:white;border:1px solid var(--border);
-  border-radius:14px;padding:18px;box-shadow:var(--shadow);
-}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{background:white;border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
 .service-card{cursor:pointer;transition:.2s}
 .service-card:hover{transform:translateY(-3px);border-color:var(--green2)}
 .service-icon{font-size:29px;margin-bottom:10px}
 .card h3{font-size:17px;margin:5px 0 9px}
 .card p{font-size:13px;line-height:1.8;color:var(--muted)}
-.card .btn{margin-top:8px}
 .kebele-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.kebele{
-  background:white;border:1px solid var(--border);
-  padding:15px;border-radius:11px;font-weight:bold;
-}
-.news-card{display:flex;flex-direction:column}
+.kebele{background:white;border:1px solid var(--border);padding:15px;border-radius:11px;font-weight:bold}
 .news-date{font-size:12px;color:var(--green2)}
-.news-card p{flex:1}
-.form-card{
-  background:white;padding:22px;border-radius:15px;
-  box-shadow:var(--shadow);max-width:760px;
-}
+.form-card{background:white;padding:22px;border-radius:15px;box-shadow:var(--shadow);max-width:760px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .field{margin-bottom:14px}
 .field label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
-.field input,.field textarea,.field select{
-  width:100%;padding:12px;border:1px solid #ccd9d4;
-  border-radius:8px;background:#fff;outline:none;
-}
-.field input:focus,.field textarea:focus,.field select:focus{
-  border-color:var(--green2);box-shadow:0 0 0 2px #0b806e18;
-}
+.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #ccd9d4;border-radius:8px;background:#fff;outline:none}
 .field textarea{min-height:110px;resize:vertical}
 .full{grid-column:1/-1}
-.detail-box{
-  background:white;padding:25px;border-radius:15px;
-  box-shadow:var(--shadow);
-}
+.detail-box{background:white;padding:25px;border-radius:15px;box-shadow:var(--shadow)}
 .detail-box h2{color:var(--green)}
 .detail-box p{line-height:2}
-.detail-list{line-height:2}
-.notice{
-  background:#fff7df;border-left:4px solid var(--gold);
-  padding:13px;border-radius:7px;font-size:13px;line-height:1.8;
-}
+.notice{background:#fff7df;border-left:4px solid var(--gold);padding:13px;border-radius:7px;font-size:13px;line-height:1.8;margin:12px 0}
 .admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
 .admin-tabs button{border:0;padding:10px 14px;border-radius:8px;background:#e6efeb}
 .admin-tabs button.active{background:var(--green);color:white}
-.admin-section{display:none}
-.admin-section.active{display:block}
+.admin-section{display:none}.admin-section.active{display:block}
 .table-wrap{overflow-x:auto;background:white;border-radius:12px}
 table{width:100%;border-collapse:collapse;min-width:600px}
-th,td{padding:12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
 th{background:#edf5f2}
 .empty{text-align:center;padding:25px;color:var(--muted)}
-footer{
-  margin-top:35px;background:#073f39;color:white;
-  padding:30px 18px;text-align:center;line-height:1.9;
-}
+footer{margin-top:35px;background:#073f39;color:white;padding:30px 18px;text-align:center;line-height:1.9}
 footer small{color:#c5ddd7}
-.toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-  background:#173d35;color:white;padding:13px 20px;
-  border-radius:9px;box-shadow:var(--shadow);
-  z-index:100;display:none;max-width:90%;text-align:center;
-}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#173d35;color:white;padding:13px 20px;border-radius:9px;box-shadow:var(--shadow);z-index:100;display:none;max-width:90%;text-align:center}
 .hidden{display:none!important}
 @media(max-width:850px){
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .kebele-grid{grid-template-columns:repeat(3,1fr)}
-  nav{display:none;position:absolute;top:70px;left:0;right:0;
-    background:var(--green);padding:12px;box-shadow:var(--shadow)}
-  nav.open{display:grid;grid-template-columns:repeat(2,1fr)}
-  nav button{text-align:left}
-  .menu-btn{display:block}
+.cards{grid-template-columns:repeat(2,1fr)}
+.kebele-grid{grid-template-columns:repeat(3,1fr)}
+nav{display:none;position:absolute;top:70px;left:0;right:0;background:var(--green);padding:12px;box-shadow:var(--shadow)}
+nav.open{display:grid;grid-template-columns:repeat(2,1fr)}
+nav button{text-align:left}.menu-btn{display:block}
 }
 @media(max-width:560px){
-  main{padding:13px}
-  .hero{padding:32px 19px}
-  .hero h2{font-size:25px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .cards{grid-template-columns:1fr}
-  .kebele-grid{grid-template-columns:repeat(2,1fr)}
-  .form-grid{grid-template-columns:1fr}
-  .full{grid-column:auto}
-  .brand h1{font-size:14px}
-  .section-title h2{font-size:18px}
+main{padding:13px}.hero{padding:32px 19px}.hero h2{font-size:25px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.cards{grid-template-columns:1fr}.kebele-grid{grid-template-columns:repeat(2,1fr)}
+.form-grid{grid-template-columns:1fr}.full{grid-column:auto}
+.brand h1{font-size:14px}.section-title h2{font-size:18px}
 }
 </style>
 </head>
 
 <body>
-
 <header>
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo">ጮ</div>
-      <div>
-        <h1>CHORSO DIGITAL CITY</h1>
-        <small>ዲጂታል ጮርሶ ወረዳ</small>
-      </div>
-    </div>
-    <button class="menu-btn" onclick="toggleMenu()">☰ ምናሌ</button>
-    <nav id="mainNav">
-      <button class="active" data-page="home" onclick="showPage('home',this)">መነሻ</button>
-      <button data-page="services" onclick="showPage('services',this)">አገልግሎቶች</button>
-      <button data-page="kebeles" onclick="showPage('kebeles',this)">ቀበሌዎች</button>
-      <button data-page="news" onclick="showPage('news',this)">ዜና</button>
-      <button data-page="complaint" onclick="showPage('complaint',this)">ቅሬታ</button>
-      <button data-page="admin" onclick="showPage('admin',this)">አስተዳዳሪ</button>
-    </nav>
-  </div>
+<div class="topbar">
+<div class="brand">
+<div class="logo">ጮ</div>
+<div><h1>CHORSO DIGITAL CITY</h1><small>ዲጂታል ጮርሶ ወረዳ</small></div>
+</div>
+<button class="menu-btn" onclick="toggleMenu()">☰ ምናሌ</button>
+<nav id="mainNav">
+<button class="active" data-page="home" onclick="showPage('home',this)">መነሻ</button>
+<button data-page="services" onclick="showPage('services',this)">አገልግሎቶች</button>
+<button data-page="kebeles" onclick="showPage('kebeles',this)">ቀበሌዎች</button>
+<button data-page="news" onclick="showPage('news',this)">ዜና</button>
+<button data-page="complaint" onclick="showPage('complaint',this)">ቅሬታ</button>
+<button data-page="admin" onclick="showPage('admin',this)">መግቢያ</button>
+</nav>
+</div>
 </header>
 
 <main>
-
-<!-- HOME -->
 <section id="home" class="page active">
-  <div class="hero">
-    <h2>እንኳን ወደ ዲጂታል ጮርሶ በደህና መጡ!</h2>
-    <p>
-      የጮርሶ ወረዳ የመንግሥት አገልግሎቶችን፣
-      መረጃዎችን፣ ዜናዎችንና የዜጎችን ጥያቄዎች
-      በዲጂታል መንገድ ለማቅረብ የተዘጋጀ መድረክ ነው።
-    </p>
-    <div class="hero-actions">
-      <button class="btn gold" onclick="showPage('services')">አገልግሎቶችን ይመልከቱ</button>
-      <button class="btn light" onclick="showPage('complaint')">ቅሬታ ያቅርቡ</button>
-    </div>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><strong>12</strong><span>የአገልግሎት ዘርፎች</span></div>
-    <div class="stat"><strong>13</strong><span>ቀበሌዎች</span></div>
-    <div class="stat"><strong id="newsCount">0</strong><span>የተለቀቁ ዜናዎች</span></div>
-    <div class="stat"><strong id="complaintCount">0</strong><span>የቀረቡ ቅሬታዎች</span></div>
-  </div>
-
-  <div class="section-title">
-    <h2>ዋና ዋና አገልግሎቶች</h2>
-    <button class="btn gray" onclick="showPage('services')">ሁሉንም ይመልከቱ</button>
-  </div>
-  <div id="homeServices" class="cards"></div>
-
-  <div class="section-title">
-    <h2>የቅርብ ጊዜ ዜናዎች</h2>
-    <button class="btn gray" onclick="showPage('news')">ሁሉንም ዜናዎች</button>
-  </div>
-  <div id="homeNews" class="cards"></div>
+<div class="hero">
+<h2>እንኳን ወደ ዲጂታል ጮርሶ በደህና መጡ!</h2>
+<p>የጮርሶ ወረዳ የመንግሥት አገልግሎቶችን፣ መረጃዎችን፣ ዜናዎችንና የዜጎችን ጥያቄዎች በዲጂታል መንገድ ለማቅረብ የተዘጋጀ መድረክ ነው።</p>
+<div class="hero-actions">
+<button class="btn gold" onclick="showPage('services')">አገልግሎቶችን ይመልከቱ</button>
+<button class="btn light" onclick="showPage('complaint')">ቅሬታ ያቅርቡ</button>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><strong>12</strong><span>የአገልግሎት ዘርፎች</span></div>
+<div class="stat"><strong>13</strong><span>ቀበሌዎች</span></div>
+<div class="stat"><strong id="newsCount">0</strong><span>የተለቀቁ ዜናዎች</span></div>
+<div class="stat"><strong id="complaintCount">0</strong><span>የቀረቡ ቅሬታዎች</span></div>
+</div>
+<div class="section-title"><h2>ዋና ዋና አገልግሎቶች</h2><button class="btn gray" onclick="showPage('services')">ሁሉንም ይመልከቱ</button></div>
+<div id="homeServices" class="cards"></div>
+<div class="section-title"><h2>የቅርብ ጊዜ ዜናዎች</h2><button class="btn gray" onclick="showPage('news')">ሁሉንም ዜናዎች</button></div>
+<div id="homeNews" class="cards"></div>
 </section>
 
-<!-- SERVICES -->
 <section id="services" class="page">
-  <div class="section-title"><h2>የወረዳው የአገልግሎት ዘርፎች</h2></div>
-  <p>ከታች ያሉትን የአገልግሎት ካርዶች በመጫን ዝርዝር መረጃ ያግኙ።</p>
-  <div id="allServices" class="cards"></div>
+<div class="section-title"><h2>የወረዳው የአገልግሎት ዘርፎች</h2></div>
+<p>የአገልግሎት ካርዶቹን በመጫን ዝርዝር መረጃ ያግኙ።</p>
+<div id="allServices" class="cards"></div>
 </section>
 
-<!-- SERVICE DETAIL -->
 <section id="serviceDetail" class="page">
-  <button class="btn gray" onclick="showPage('services')">← ወደ አገልግሎቶች ተመለስ</button>
-  <div id="serviceDetailContent" class="detail-box" style="margin-top:15px"></div>
+<button class="btn gray" onclick="showPage('services')">← ተመለስ</button>
+<div id="serviceDetailContent" class="detail-box" style="margin-top:15px"></div>
 </section>
 
-<!-- KEBELES -->
 <section id="kebeles" class="page">
-  <div class="section-title"><h2>የጮርሶ ወረዳ ቀበሌዎች</h2></div>
-  <p>የወረዳው 13 ቀበሌዎች።</p>
-  <div id="kebeleList" class="kebele-grid"></div>
+<div class="section-title"><h2>የጮርሶ ወረዳ ቀበሌዎች</h2></div>
+<p>የወረዳው 13 ቀበሌዎች።</p>
+<div id="kebeleList" class="kebele-grid"></div>
 </section>
 
-<!-- NEWS -->
 <section id="news" class="page">
-  <div class="section-title"><h2>የወረዳው ዜናና ማስታወቂያ</h2></div>
-  <div id="allNews" class="cards"></div>
+<div class="section-title"><h2>የወረዳው ዜናና ማስታወቂያ</h2></div>
+<div id="allNews" class="cards"></div>
 </section>
 
-<!-- COMPLAINT -->
 <section id="complaint" class="page">
-  <div class="section-title"><h2>የዜጎች ቅሬታና ጥያቄ ማቅረቢያ</h2></div>
-  <div class="form-card">
-    <p>ቅሬታዎን ወይም ጥያቄዎን በዚህ ቅጽ ያስገቡ።</p>
-    <form id="complaintForm">
-      <div class="form-grid">
-        <div class="field">
-          <label for="citizenName">ሙሉ ስም</label>
-          <input id="citizenName" required maxlength="100">
-        </div>
-        <div class="field">
-          <label for="citizenPhone">ስልክ ቁጥር</label>
-          <input id="citizenPhone" type="tel" required maxlength="20">
-        </div>
-        <div class="field">
-          <label for="citizenKebele">ቀበሌ</label>
-          <select id="citizenKebele" required></select>
-        </div>
-        <div class="field">
-          <label for="citizenService">የአገልግሎት ዘርፍ</label>
-          <select id="citizenService" required></select>
-        </div>
-        <div class="field full">
-          <label for="citizenMessage">የቅሬታዎ ወይም የጥያቄዎ ዝርዝር</label>
-          <textarea id="citizenMessage" required maxlength="2000"></textarea>
-        </div>
-      </div>
-      <button class="btn" type="submit">ቅሬታውን አስገባ</button>
-    </form>
-    <div class="notice" style="margin-top:17px">
-      ማስታወሻ፦ ይህ የሙከራ ስሪት ነው። የሚገቡ ቅሬታዎች በዚህ መሣሪያ ላይ ብቻ ይቀመጣሉ፤
-      ወደ ወረዳው መንግሥት ቢሮ አይላኩም።
-    </div>
-  </div>
+<div class="section-title"><h2>የዜጎች ቅሬታና ጥያቄ ማቅረቢያ</h2></div>
+<div class="form-card">
+<p>ቅሬታዎን ወይም ጥያቄዎን በዚህ ቅጽ ያስገቡ።</p>
+<form id="complaintForm">
+<div class="form-grid">
+<div class="field"><label for="citizenName">ሙሉ ስም</label><input id="citizenName" required maxlength="100"></div>
+<div class="field"><label for="citizenPhone">ስልክ ቁጥር</label><input id="citizenPhone" type="tel" required maxlength="20"></div>
+<div class="field"><label for="citizenKebele">ቀበሌ</label><select id="citizenKebele" required></select></div>
+<div class="field"><label for="citizenService">የአገልግሎት ዘርፍ</label><select id="citizenService" required></select></div>
+<div class="field full"><label for="citizenMessage">የቅሬታዎ ወይም የጥያቄዎ ዝርዝር</label><textarea id="citizenMessage" required maxlength="2000"></textarea></div>
+</div>
+<button class="btn" type="submit" id="complaintSubmit">ቅሬታውን አስገባ</button>
+</form>
+<div class="notice">ማስታወሻ፦ ቅሬታዎ ወደ ዲጂታል ስርዓቱ ይገባል። ይህ ብቻውን የመንግሥት ቢሮ የቅሬታ መቀበል ማረጋገጫ አይደለም።</div>
+</div>
 </section>
 
-<!-- ADMIN -->
 <section id="admin" class="page">
-  <div class="section-title"><h2>የአስተዳዳሪ መግቢያ</h2></div>
+<div class="section-title"><h2>የአስተዳዳሪ / ዘርፍ መግቢያ</h2></div>
+<div id="loginBox" class="form-card">
+<p>በተመዘገበው የኢሜይል አድራሻና ይለፍ ቃል ይግቡ።</p>
+<form id="loginForm">
+<div class="field"><label for="loginEmail">ኢሜይል</label><input id="loginEmail" type="email" required autocomplete="username"></div>
+<div class="field"><label for="loginPassword">ይለፍ ቃል</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+<button class="btn" type="submit" id="loginButton">ግባ</button>
+</form>
+</div>
 
-  <div id="adminLoginBox" class="form-card">
-    <p>የአስተዳዳሪ ይለፍ ቃል ያስገቡ።</p>
-    <form id="adminLoginForm">
-      <div class="field">
-        <label for="adminPassword">ይለፍ ቃል</label>
-        <input id="adminPassword" type="password" required>
-      </div>
-      <button class="btn" type="submit">ግባ</button>
-    </form>
-    <p class="notice">የሙከራ ይለፍ ቃል፦ 1234</p>
-  </div>
+<div id="adminDashboard" class="hidden">
+<div class="section-title"><h2>የአስተዳዳሪ ዳሽቦርድ</h2><button class="btn danger" onclick="logout()">ውጣ</button></div>
+<div class="admin-tabs">
+<button class="active" onclick="showAdminSection('adminComplaints',this)">ቅሬታዎች</button>
+<button onclick="showAdminSection('adminAddNews',this)">ዜና ጨምር</button>
+<button onclick="showAdminSection('adminTasks',this)">ሥራ መድብ</button>
+<button onclick="showAdminSection('adminAllTasks',this)">የተመደቡ ሥራዎች</button>
+<button onclick="showAdminSection('adminKebeles',this)">ቀበሌዎች</button>
+</div>
 
-  <div id="adminDashboard" class="hidden">
-    <div class="section-title">
-      <h2>የአስተዳዳሪ ዳሽቦርድ</h2>
-      <button class="btn danger" onclick="adminLogout()">ውጣ</button>
-    </div>
-    <div class="admin-tabs">
-      <button class="active" onclick="showAdminSection('adminComplaints',this)">ቅሬታዎች</button>
-      <button onclick="showAdminSection('adminAddNews',this)">ዜና ጨምር</button>
-      <button onclick="showAdminSection('adminKebeles',this)">ቀበሌዎች</button>
-    </div>
+<div id="adminComplaints" class="admin-section active">
+<h3>የተቀበሉ ቅሬታዎች</h3><div id="complaintsTable" class="table-wrap"></div>
+</div>
 
-    <div id="adminComplaints" class="admin-section active">
-      <h3>የተቀበሉ ቅሬታዎች</h3>
-      <div id="complaintsTable" class="table-wrap"></div>
-    </div>
+<div id="adminAddNews" class="admin-section">
+<div class="form-card">
+<h3>አዲስ ዜና አስገባ</h3>
+<form id="newsForm">
+<div class="field"><label for="newsTitle">የዜናው ርዕስ</label><input id="newsTitle" required maxlength="150"></div>
+<div class="field"><label for="newsCategory">የዜናው ዓይነት</label>
+<select id="newsCategory"><option>ማስታወቂያ</option><option>የልማት ዜና</option><option>የሕዝብ መረጃ</option><option>ሌላ</option></select></div>
+<div class="field"><label for="newsBody">የዜናው ዝርዝር</label><textarea id="newsBody" required maxlength="5000"></textarea></div>
+<button class="btn" type="submit">ዜናውን አትም</button>
+</form>
+</div>
+</div>
 
-    <div id="adminAddNews" class="admin-section">
-      <div class="form-card">
-        <h3>አዲስ ዜና አስገባ</h3>
-        <form id="newsForm">
-          <div class="field">
-            <label for="newsTitle">የዜናው ርዕስ</label>
-            <input id="newsTitle" required maxlength="150">
-          </div>
-          <div class="field">
-            <label for="newsCategory">የዜናው ዓይነት</label>
-            <select id="newsCategory">
-              <option>ማስታወቂያ</option>
-              <option>የልማት ዜና</option>
-              <option>የሕዝብ መረጃ</option>
-              <option>ሌላ</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="newsBody">የዜናው ዝርዝር</label>
-            <textarea id="newsBody" required maxlength="5000"></textarea>
-          </div>
-          <button class="btn" type="submit">ዜናውን አትም</button>
-        </form>
-      </div>
-    </div>
+<div id="adminTasks" class="admin-section">
+<div class="form-card">
+<h3>ለዘርፍ ሥራ መድብ</h3>
+<form id="taskForm">
+<div class="field"><label for="taskTitle">የሥራው ርዕስ</label><input id="taskTitle" required maxlength="150"></div>
+<div class="field"><label for="taskService">የሚመደብበት ዘርፍ</label><select id="taskService" required></select></div>
+<div class="field"><label for="taskDescription">የሥራው ዝርዝር</label><textarea id="taskDescription" required maxlength="3000"></textarea></div>
+<button class="btn" type="submit">ሥራውን መድብ</button>
+</form>
+</div>
+</div>
 
-    <div id="adminKebeles" class="admin-section">
-      <h3>የወረዳው ቀበሌዎች</h3>
-      <div id="adminKebeleList" class="kebele-grid"></div>
-    </div>
-  </div>
+<div id="adminAllTasks" class="admin-section">
+<h3>የተመደቡ ሥራዎችና የዘርፎች ምላሽ</h3>
+<div id="allTasksTable" class="table-wrap"></div>
+</div>
+
+<div id="adminKebeles" class="admin-section">
+<h3>የወረዳው ቀበሌዎች</h3><div id="adminKebeleList" class="kebele-grid"></div>
+</div>
+</div>
+
+<div id="sectorDashboard" class="hidden">
+<div class="section-title"><h2 id="sectorHeading">የዘርፍ ዳሽቦርድ</h2><button class="btn danger" onclick="logout()">ውጣ</button></div>
+<div class="notice">የዘርፍዎን ሥራዎች ከታች ይመልከቱ፤ ምላሽዎንም ያስገቡ።</div>
+<div id="sectorTasks"></div>
+</div>
 </section>
-
 </main>
 
 <footer>
-  <strong>CHORSO DIGITAL CITY</strong><br>
-  የጮርሶ ወረዳ ዲጂታል አገልግሎት መድረክ<br>
-  <small>ዲጂታል አገልግሎት • ግልጽነት • ተጠያቂነት</small>
+<strong>CHORSO DIGITAL CITY</strong><br>
+የጮርሶ ወረዳ ዲጂታል አገልግሎት መድረክ<br>
+<small>ዲጂታል አገልግሎት • ግልጽነት • ተጠያቂነት</small>
 </footer>
-
 <div id="toast" class="toast"></div>
 
 <script>
 "use strict";
-// CHORSO DIGITAL CITY - FIREBASE CONNECTION
-const firebaseConfig = {
-  apiKey: "AIzaSyBQH4-jAMEhcpXkf1caDU_ftMz9-PELpPg",
-  authDomain: "chorso-digital-city.firebaseapp.com",
-  projectId: "chorso-digital-city",
-  storageBucket: "chorso-digital-city.firebasestorage.app",
-  messagingSenderId: "831621292606",
-  appId: "1:831621292606:web:aced98e76c34fb28c8a76f",
-  measurementId: "G-39LS0H4BDV"
+
+/* FIREBASE CONNECTION */
+const firebaseConfig={
+ apiKey:"AIzaSyBQH4-jAMEhcpXkf1caDU_ftMz9-PELpPg",
+ authDomain:"chorso-digital-city.firebaseapp.com",
+ projectId:"chorso-digital-city",
+ storageBucket:"chorso-digital-city.firebasestorage.app",
+ messagingSenderId:"831621292606",
+ appId:"1:831621292606:web:aced98e76c34fb28c8a76f",
+ measurementId:"G-39LS0H4BDV"
 };
 
-firebase.initializeApp(firebaseConfig);
+if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.firestore();
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+let currentUser=null;
+let currentProfile=null;
+let news=[];
+let complaints=[];
+let tasks=[];
 
-console.log("CHORSO Firebase connected");
-/* =========================
-   DATA
-========================= */
-
-const kebeles = [
- "ድባንድቤ",
- "ቀድዳ ጉበታ",
- "ጮርሶ 01",
- "ብሻ ሞራ",
- "ሞራ ላዮ",
- "ሀሮ ባዳሜ",
- "ቦዊቻ",
- "ኩሩሜ",
- "ቅሻ",
- "ራጎ",
- "ጣካ ድማ",
- "ሞራ ከተማ",
- "አበል"
+/* DATA */
+const kebeles=[
+"ድባንድቤ","ቀድዳ ጉበታ","ጮርሶ 01","ብሻ ሞራ","ሞራ ላዮ",
+"ሀሮ ባዳሜ","ቦዊቻ","ኩሩሜ","ቅሻ","ራጎ","ጣካ ድማ","ሞራ ከተማ","አበል"
 ];
 
-const services = [
- {id:"admin",name:"የወረዳ አስተዳደር",icon:"🏛️",desc:"የወረዳ አስተዳደርና የመንግሥት አገልግሎቶች"},
- {id:"agriculture",name:"ግብርና",icon:"🌱",desc:"የግብርና ልማት፣ የሰብልና የአርሶ አደር ድጋፍ"},
- {id:"health",name:"ጤና",icon:"🏥",desc:"የጤና አገልግሎትና የጤና መረጃ"},
- {id:"education",name:"ትምህርት",icon:"📚",desc:"የትምህርት ተቋማትና የትምህርት አገልግሎቶች"},
- {id:"water",name:"ውሃ",icon:"💧",desc:"የንጹህ ውሃ አቅርቦትና ጥገና"},
- {id:"road",name:"መንገድ",icon:"🛣️",desc:"የመንገድ ግንባታና ጥገና"},
- {id:"land",name:"መሬትና ቤቶች",icon:"🏠",desc:"የመሬት አስተዳደርና የቤት ጉዳዮች"},
- {id:"economy",name:"ሥራና ኢኮኖሚ",icon:"💼",desc:"የሥራ ዕድል፣ ንግድና ኢኮኖሚ ልማት"},
- {id:"livestock",name:"እንስሳት ሀብት",icon:"🐄",desc:"የእንስሳት ጤናና ልማት"},
- {id:"complaints",name:"የዜጎች ቅሬታ",icon:"📢",desc:"የዜጎች ጥያቄና ቅሬታ ማቅረቢያ"},
- {id:"investment",name:"ኢንቨስትመንት",icon:"📈",desc:"የኢንቨስትመንት ዕድሎችና ድጋፍ"},
- {id:"market",name:"ገበያ",icon:"🛒",desc:"የምርት ዋጋ፣ ገበያና የንግድ መረጃ"}
+const services=[
+{id:"admin",name:"የወረዳ አስተዳደር",icon:"🏛️",desc:"የወረዳ አስተዳደርና የመንግሥት አገልግሎቶች"},
+{id:"agriculture",name:"ግብርና",icon:"🌱",desc:"የግብርና ልማት፣ የሰብልና የአርሶ አደር ድጋፍ"},
+{id:"health",name:"ጤና",icon:"🏥",desc:"የጤና አገልግሎትና የጤና መረጃ"},
+{id:"education",name:"ትምህርት",icon:"📚",desc:"የትምህርት ተቋማትና አገልግሎቶች"},
+{id:"water",name:"ውሃ",icon:"💧",desc:"የንጹህ ውሃ አቅርቦትና ጥገና"},
+{id:"road",name:"መንገድ",icon:"🛣️",desc:"የመንገድ ግንባታና ጥገና"},
+{id:"land",name:"መሬትና ቤቶች",icon:"🏠",desc:"የመሬት አስተዳደርና የቤት ጉዳዮች"},
+{id:"economy",name:"ሥራና ኢኮኖሚ",icon:"💼",desc:"የሥራ ዕድል፣ ንግድና ኢኮኖሚ ልማት"},
+{id:"livestock",name:"እንስሳት ሀብት",icon:"🐄",desc:"የእንስሳት ጤናና ልማት"},
+{id:"complaints",name:"የዜጎች ቅሬታ",icon:"📢",desc:"የዜጎች ጥያቄና ቅሬታ"},
+{id:"investment",name:"ኢንቨስትመንት",icon:"📈",desc:"የኢንቨስትመንት ዕድሎችና ድጋፍ"},
+{id:"market",name:"ገበያ",icon:"🛒",desc:"የምርት ዋጋ፣ ገበያና የንግድ መረጃ"}
 ];
 
-const serviceDetails = {
- admin:["የወረዳ አስተዳደር","የወረዳውን አስተዳደራዊ ጉዳዮች፣ የሕዝብ ጥያቄዎችና የመንግሥት አገልግሎቶች ማስተባበር።","የአስተዳደር መረጃ፣ የሕዝብ ጥያቄ፣ የቢሮ አገልግሎት።"],
- agriculture:["ግብርና","የአርሶ አደሮችን የምርት አቅም ማሳደግና የግብርና ቴክኖሎጂ መረጃ ማቅረብ።","የሰብል ምርት፣ የቡና ልማት፣ የግብርና ምክር።"],
- health:["ጤና","የሕዝብ ጤናን ለመጠበቅ የጤና ተቋማትና የጤና መረጃ ማቅረብ።","የጤና ጣቢያዎች፣ ክትባት፣ የእናቶችና ሕፃናት ጤና።"],
- education:["ትምህርት","የትምህርት ተደራሽነትና ጥራት ለማሻሻል መረጃ ማቅረብ።","ትምህርት ቤቶች፣ ምዝገባ፣ የትምህርት ውጤት።"],
- water:["ውሃ","የንጹህ ውሃ አቅርቦትና የውሃ ተቋማት ጥገና ጉዳዮች።","የውሃ ቦኖዎች፣ የውሃ ችግር ሪፖርት፣ የውሃ አገልግሎት።"],
- road:["መንገድ","የገጠርና የከተማ መንገዶች ልማትና ጥገና።","የመንገድ ጥገና፣ የመንገድ ግንባታ፣ የመንገድ ችግር ሪፖርት።"],
- land:["መሬትና ቤቶች","የመሬት አጠቃቀም፣ ምዝገባና የቤት ጉዳዮች።","የመሬት መረጃ፣ የቤት ጉዳይ፣ የካርታ መረጃ።"],
- economy:["ሥራና ኢኮኖሚ","የሥራ ዕድልና የኢኮኖሚ ልማት መረጃ።","የሥራ ዕድል፣ የሙያ ስልጠና፣ የንግድ ድጋፍ።"],
- livestock:["እንስሳት ሀብት","የእንስሳት ጤናና የእንስሳት ምርታማነት ማሳደግ።","የእንስሳት ሕክምና፣ ክትባት፣ የመኖ ልማት።"],
- complaints:["የዜጎች ቅሬታ","የሕዝብን ጥያቄና ቅሬታ ለመቀበል የተዘጋጀ አገልግሎት።","የአገልግሎት ቅሬታ፣ የአስተዳደር ጥያቄ።"],
- investment:["ኢንቨስትመንት","በወረዳው ያሉ የኢንቨስትመንት ዕድሎችን ለማስተዋወቅ።","የመሬት ዕድሎች፣ የንግድ ፈቃድ፣ የኢንቨስትመንት መረጃ።"],
- market:["ገበያ","የአካባቢ ምርቶችንና የገበያ መረጃን ለማቅረብ።","የቡና ዋጋ፣ የግብርና ምርት፣ የገበያ መረጃ።"]
+const serviceDetails={
+admin:["የወረዳ አስተዳደር","የወረዳውን አስተዳደራዊ ጉዳዮችና የሕዝብ ጥያቄዎች ማስተባበር።","የአስተዳደር መረጃ፣ የሕዝብ ጥያቄ።"],
+agriculture:["ግብርና","የአርሶ አደሮችን የምርት አቅም ማሳደግ።","የሰብል ምርት፣ የቡና ልማት፣ የግብርና ምክር።"],
+health:["ጤና","የሕዝብ ጤናን ለመጠበቅ መረጃ ማቅረብ።","የጤና ጣቢያዎች፣ ክትባት።"],
+education:["ትምህርት","የትምህርት ጥራትና ተደራሽነት ማሻሻል።","ትምህርት ቤቶች፣ ምዝገባ።"],
+water:["ውሃ","የንጹህ ውሃ አቅርቦትና ጥገና።","የውሃ ቦኖዎች፣ የውሃ ችግር ሪፖርት።"],
+road:["መንገድ","የገጠርና የከተማ መንገዶች ልማት።","የመንገድ ጥገና፣ ግንባታ።"],
+land:["መሬትና ቤቶች","የመሬት አጠቃቀምና ምዝገባ።","የመሬት መረጃ፣ የቤት ጉዳይ።"],
+economy:["ሥራና ኢኮኖሚ","የሥራ ዕድልና የኢኮኖሚ ልማት።","የሥራ ዕድል፣ የሙያ ስልጠና።"],
+livestock:["እንስሳት ሀብት","የእንስሳት ጤናና ምርታማነት።","የእንስሳት ሕክምና፣ ክትባት።"],
+complaints:["የዜጎች ቅሬታ","የሕዝብን ጥያቄና ቅሬታ መቀበል።","የአገልግሎት ቅሬታ።"],
+investment:["ኢንቨስትመንት","የኢንቨስትመንት ዕድሎችን ማስተዋወቅ።","የመሬት ዕድሎች፣ የንግድ መረጃ።"],
+market:["ገበያ","የአካባቢ ምርቶችንና የገበያ መረጃን ማቅረብ።","የቡና ዋጋ፣ የግብርና ምርት።"]
 };
 
-/* =========================
-   STORAGE
-========================= */
-
-function getData(key, fallback){
-  try{
-    const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : fallback;
-  }catch(error){
-    console.error("Storage read error:",error);
-    return fallback;
-  }
-}
-
-function saveData(key,value){
-  try{
-    localStorage.setItem(key,JSON.stringify(value));
-    return true;
-  }catch(error){
-    console.error("Storage save error:",error);
-    showToast("መረጃውን ማስቀመጥ አልተቻለም።");
-    return false;
-  }
-}
-
-let news = getData("ch_news",[]);
-let complaints = getData("ch_complaints",[]);
-
-/* =========================
-   COMMON FUNCTIONS
-========================= */
-
+/* COMMON */
 function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g,function(char){
-    return {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[char];
-  });
+return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
-
 function showToast(message){
-  const toast=document.getElementById("toast");
-  toast.textContent=message;
-  toast.style.display="block";
-  clearTimeout(showToast.timer);
-  showToast.timer=setTimeout(()=>{toast.style.display="none"},3000);
+const t=document.getElementById("toast");
+t.textContent=message;t.style.display="block";
+clearTimeout(showToast.timer);
+showToast.timer=setTimeout(()=>t.style.display="none",3500);
 }
-
-function toggleMenu(){
-  document.getElementById("mainNav").classList.toggle("open");
-}
-
+function toggleMenu(){document.getElementById("mainNav").classList.toggle("open")}
 function showPage(id,button){
-  const target=document.getElementById(id);
-  if(!target){
-    showToast("ይህ ገጽ አልተገኘም።");
-    return;
-  }
-
-  document.querySelectorAll(".page").forEach(page=>{
-    page.classList.remove("active");
-  });
-  target.classList.add("active");
-
-  document.querySelectorAll("#mainNav button").forEach(btn=>{
-    btn.classList.remove("active");
-  });
-
-  const navButton=button || document.querySelector('#mainNav button[data-page="'+id+'"]');
-  if(navButton) navButton.classList.add("active");
-
-  document.getElementById("mainNav").classList.remove("open");
-
-  if(id==="services") renderServices();
-  if(id==="news") renderNews();
-  if(id==="admin") refreshAdmin();
-
-  window.scrollTo({top:0,behavior:"smooth"});
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelectorAll("#mainNav button").forEach(b=>b.classList.remove("active"));
+const nav=button||document.querySelector('#mainNav button[data-page="'+id+'"]');
+if(nav)nav.classList.add("active");
+document.getElementById("mainNav").classList.remove("open");
+if(id==="admin")refreshDashboard();
+window.scrollTo({top:0,behavior:"smooth"});
 }
 
-/* =========================
-   SERVICES
-========================= */
-
-function makeServiceCard(service){
-  return `
-    <article class="card service-card" role="button" tabindex="0"
-      onclick="serviceInfo('${service.id}')"
-      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();serviceInfo('${service.id}')}">
-      <div class="service-icon">${service.icon}</div>
-      <h3>${escapeHTML(service.name)}</h3>
-      <p>${escapeHTML(service.desc)}</p>
-      <button class="btn" type="button" onclick="event.stopPropagation();serviceInfo('${service.id}')">ዝርዝር ይመልከቱ</button>
-    </article>`;
+/* SERVICES */
+function makeServiceCard(s){
+return `<article class="card service-card" onclick="serviceInfo('${s.id}')">
+<div class="service-icon">${s.icon}</div><h3>${escapeHTML(s.name)}</h3>
+<p>${escapeHTML(s.desc)}</p><button class="btn" type="button">ዝርዝር ይመልከቱ</button></article>`;
 }
-
 function renderServices(){
-  const home=document.getElementById("homeServices");
-  const all=document.getElementById("allServices");
-
-  if(home) home.innerHTML=services.slice(0,6).map(makeServiceCard).join("");
-  if(all) all.innerHTML=services.map(makeServiceCard).join("");
+document.getElementById("homeServices").innerHTML=services.slice(0,6).map(makeServiceCard).join("");
+document.getElementById("allServices").innerHTML=services.map(makeServiceCard).join("");
 }
-
 function serviceInfo(id){
-  const service=services.find(item=>item.id===id);
-  const detail=serviceDetails[id];
-
-  if(!service || !detail){
-    showToast("የአገልግሎቱ መረጃ አልተገኘም።");
-    return;
-  }
-
-  document.getElementById("serviceDetailContent").innerHTML=`
-    <div class="service-icon">${service.icon}</div>
-    <h2>${escapeHTML(detail[0])}</h2>
-    <p>${escapeHTML(detail[1])}</p>
-    <h3>የአገልግሎት ዝርዝር</h3>
-    <p>${escapeHTML(detail[2])}</p>
-    <div class="notice">
-      ለዚህ አገልግሎት ጥያቄ ወይም ቅሬታ ለማቅረብ ከታች ያለውን ቁልፍ ይጫኑ።
-    </div>
-    <br>
-    <button class="btn" onclick="showPage('complaint')">ጥያቄ / ቅሬታ አቅርብ</button>
-    <button class="btn gray" onclick="showPage('services')">ተመለስ</button>
-  `;
-
-  showPage("serviceDetail");
+const s=services.find(x=>x.id===id),d=serviceDetails[id];
+if(!s||!d)return;
+document.getElementById("serviceDetailContent").innerHTML=`
+<div class="service-icon">${s.icon}</div><h2>${escapeHTML(d[0])}</h2>
+<p>${escapeHTML(d[1])}</p><h3>የአገልግሎት ዝርዝር</h3>
+<p>${escapeHTML(d[2])}</p>
+<button class="btn" onclick="showPage('complaint')">ጥያቄ / ቅሬታ አቅርብ</button>`;
+showPage("serviceDetail");
 }
 
-/* =========================
-   KEBELES
-========================= */
-
+/* KEBELES AND SELECTS */
 function renderKebeles(){
-  const html=kebeles.map((name,index)=>`
-    <div class="kebele">📍 ${index+1}. ${escapeHTML(name)}</div>
-  `).join("");
-
-  document.getElementById("kebeleList").innerHTML=html;
-  document.getElementById("adminKebeleList").innerHTML=html;
-
-  const kebeleSelect=document.getElementById("citizenKebele");
-  kebeleSelect.innerHTML='<option value="">ቀበሌ ይምረጡ</option>'+
-    kebeles.map(name=>`<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`).join("");
-
-  const serviceSelect=document.getElementById("citizenService");
-  serviceSelect.innerHTML='<option value="">የአገልግሎት ዘርፍ ይምረጡ</option>'+
-    services.map(item=>`<option value="${escapeHTML(item.name)}">${escapeHTML(item.name)}</option>`).join("");
+const html=kebeles.map((n,i)=>`<div class="kebele">📍 ${i+1}. ${escapeHTML(n)}</div>`).join("");
+document.getElementById("kebeleList").innerHTML=html;
+document.getElementById("adminKebeleList").innerHTML=html;
+document.getElementById("citizenKebele").innerHTML='<option value="">ቀበሌ ይምረጡ</option>'+kebeles.map(n=>`<option>${escapeHTML(n)}</option>`).join("");
+document.getElementById("citizenService").innerHTML='<option value="">ዘርፍ ይምረጡ</option>'+services.map(s=>`<option value="${s.id}">${escapeHTML(s.name)}</option>`).join("");
+document.getElementById("taskService").innerHTML='<option value="">ዘርፍ ይምረጡ</option>'+services.filter(s=>s.id!=="admin").map(s=>`<option value="${s.id}">${escapeHTML(s.name)}</option>`).join("");
 }
 
-/* =========================
-   NEWS
-========================= */
-
-function newsCard(item){
-  return `
-    <article class="card news-card">
-      <div class="news-date">${escapeHTML(item.category || "ዜና")} • ${escapeHTML(item.date || "")}</div>
-      <h3>${escapeHTML(item.title)}</h3>
-      <p>${escapeHTML(item.body)}</p>
-    </article>`;
-}
-
+/* FIRESTORE NEWS */
 function renderNews(){
-  news=getData("ch_news",[]);
-  const html=news.length
-    ? news.slice().reverse().map(newsCard).join("")
-    : '<div class="card empty">እስካሁን የተለቀቀ ዜና የለም።</div>';
-
-  document.getElementById("allNews").innerHTML=html;
-  document.getElementById("homeNews").innerHTML=news.length
-    ? news.slice(-3).reverse().map(newsCard).join("")
-    : '<div class="card empty">እስካሁን ዜና አልተጨመረም።</div>';
-
-  document.getElementById("newsCount").textContent=news.length;
+const html=news.length?news.slice().reverse().map(n=>`
+<article class="card"><div class="news-date">${escapeHTML(n.category||"ዜና")} • ${escapeHTML(n.date||"")}</div>
+<h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.body)}</p></article>`).join("")
+:'<div class="card empty">እስካሁን የተለቀቀ ዜና የለም።</div>';
+document.getElementById("allNews").innerHTML=html;
+document.getElementById("homeNews").innerHTML=news.length?news.slice(-3).reverse().map(n=>`
+<article class="card"><div class="news-date">${escapeHTML(n.category||"ዜና")} • ${escapeHTML(n.date||"")}</div><h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.body)}</p></article>`).join(""):'<div class="card empty">እስካሁን ዜና አልተጨመረም።</div>';
+document.getElementById("newsCount").textContent=news.length;
 }
+db.collection("ch_news").orderBy("createdAt","desc").onSnapshot(snapshot=>{
+news=snapshot.docs.map(doc=>({id:doc.id,...doc.data()}));
+renderNews();
+},error=>console.error("News read error:",error));
 
-/* =========================
-   COMPLAINT FORM
-========================= */
+/* COMPLAINT SUBMISSION */
+document.getElementById("complaintForm").addEventListener("submit",async function(e){
+e.preventDefault();
+const button=document.getElementById("complaintSubmit");
+button.disabled=true;
+try{
+const data={
+name:document.getElementById("citizenName").value.trim(),
+phone:document.getElementById("citizenPhone").value.trim(),
+kebele:document.getElementById("citizenKebele").value,
+serviceId:document.getElementById("citizenService").value,
+service:document.getElementById("citizenService").selectedOptions[0].text,
+message:document.getElementById("citizenMessage").value.trim(),
+status:"አዲስ",
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+};
+if(!data.name||!data.phone||!data.kebele||!data.serviceId||!data.message)throw new Error("ሁሉንም ቦታዎች ይሙሉ።");
 
-document.getElementById("complaintForm").addEventListener("submit",function(event){
-  event.preventDefault();
-
-  const complaint={
-    id:Date.now(),
-    name:document.getElementById("citizenName").value.trim(),
-    phone:document.getElementById("citizenPhone").value.trim(),
-    kebele:document.getElementById("citizenKebele").value,
-    service:document.getElementById("citizenService").value,
-    message:document.getElementById("citizenMessage").value.trim(),
-    date:new Date().toLocaleString("am-ET")
-  };
-
-  if(!complaint.name || !complaint.phone || !complaint.kebele ||
-     !complaint.service || !complaint.message){
-    showToast("እባክዎ ሁሉንም ቦታዎች ይሙሉ።");
-    return;
-  }
-
-  complaints=getData("ch_complaints",[]);
-  complaints.push(complaint);
-
-  if(saveData("ch_complaints",complaints)){
-    this.reset();
-    updateStats();
-    showToast("ቅሬታዎ በዚህ መሣሪያ ላይ ተቀምጧል።");
-  }
+/* Anonymous authentication for citizen submissions */
+if(!auth.currentUser){
+await auth.signInAnonymously();
+}
+await db.collection("ch_complaints").add(data);
+this.reset();
+showToast("ቅሬታዎ በስርዓቱ ተመዝግቧል።");
+}catch(error){
+console.error(error);
+showToast("ቅሬታው አልተላከም። "+error.message);
+}finally{button.disabled=false;}
 });
 
-/* =========================
-   ADMIN LOGIN
-========================= */
-
-document.getElementById("adminLoginForm").addEventListener("submit",function(event){
-  event.preventDefault();
-
-  const password=document.getElementById("adminPassword").value;
-
-  if(password==="1234"){
-    sessionStorage.setItem("ch_admin_logged_in","yes");
-    document.getElementById("adminPassword").value="";
-    refreshAdmin();
-    showToast("ወደ አስተዳዳሪ ገብተዋል።");
-  }else{
-    showToast("የይለፍ ቃሉ ትክክል አይደለም።");
-  }
+/* FIREBASE LOGIN */
+document.getElementById("loginForm").addEventListener("submit",async function(e){
+e.preventDefault();
+const email=document.getElementById("loginEmail").value.trim();
+const password=document.getElementById("loginPassword").value;
+const button=document.getElementById("loginButton");
+button.disabled=true;
+try{
+await auth.signInWithEmailAndPassword(email,password);
+document.getElementById("loginPassword").value="";
+showToast("መግቢያው ተሳክቷል።");
+}catch(error){
+console.error(error);
+showToast("መግባት አልተቻለም። ኢሜይልና ይለፍ ቃል ያረጋግጡ።");
+}finally{button.disabled=false;}
 });
 
-function checkAdmin(){
-  return sessionStorage.getItem("ch_admin_logged_in")==="yes";
+auth.onAuthStateChanged(async user=>{
+currentUser=user;
+currentProfile=null;
+if(!user){
+refreshDashboard();
+return;
+}
+try{
+const doc=await db.collection("ch_users").doc(user.uid).get();
+if(!doc.exists||doc.data().active!==true){
+showToast("የመግቢያ ፈቃድዎ አልተገኘም።");
+await auth.signOut();
+return;
+}
+currentProfile=doc.data();
+refreshDashboard();
+}catch(error){
+console.error(error);
+showToast("የተጠቃሚ መረጃ ማንበብ አልተቻለም።");
+}
+});
+
+function refreshDashboard(){
+const login=document.getElementById("loginBox");
+const admin=document.getElementById("adminDashboard");
+const sector=document.getElementById("sectorDashboard");
+login.classList.toggle("hidden",!!currentProfile);
+admin.classList.toggle("hidden",!(currentProfile&&currentProfile.role==="admin"));
+sector.classList.toggle("hidden",!(currentProfile&&currentProfile.role==="sector"));
+if(currentProfile&&currentProfile.role==="admin"){
+loadAdminComplaints();
+loadAllTasks();
+}
+if(currentProfile&&currentProfile.role==="sector"){
+const s=services.find(x=>x.id===currentProfile.serviceId);
+document.getElementById("sectorHeading").textContent="የ"+(s?s.name:"ዘርፍ")+" ዳሽቦርድ";
+loadSectorTasks();
+}
+}
+async function logout(){
+try{await auth.signOut();showToast("ከስርዓቱ ወጥተዋል።");}
+catch(e){showToast("መውጣት አልተቻለም።");}
 }
 
-function refreshAdmin(){
-  const logged=checkAdmin();
-  document.getElementById("adminLoginBox").classList.toggle("hidden",logged);
-  document.getElementById("adminDashboard").classList.toggle("hidden",!logged);
-
-  if(logged){
-    renderComplaints();
-    renderNews();
-  }
-}
-
-function adminLogout(){
-  sessionStorage.removeItem("ch_admin_logged_in");
-  refreshAdmin();
-  showToast("ከአስተዳዳሪ ወጥተዋል።");
-}
-
+/* ADMIN TABS */
 function showAdminSection(id,button){
-  document.querySelectorAll(".admin-section").forEach(section=>{
-    section.classList.remove("active");
-  });
-  document.querySelectorAll(".admin-tabs button").forEach(btn=>{
-    btn.classList.remove("active");
-  });
-
-  document.getElementById(id).classList.add("active");
-  if(button) button.classList.add("active");
-
-  if(id==="adminComplaints") renderComplaints();
+document.querySelectorAll(".admin-section").forEach(s=>s.classList.remove("active"));
+document.querySelectorAll(".admin-tabs button").forEach(b=>b.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+if(button)button.classList.add("active");
+if(id==="adminComplaints")loadAdminComplaints();
+if(id==="adminAllTasks")loadAllTasks();
 }
 
-/* =========================
-   ADMIN COMPLAINTS
-========================= */
-
-function renderComplaints(){
-  complaints=getData("ch_complaints",[]);
-  const container=document.getElementById("complaintsTable");
-
-  if(!complaints.length){
-    container.innerHTML='<div class="empty">እስካሁን ቅሬታ አልቀረበም።</div>';
-    return;
-  }
-
-  container.innerHTML=`
-    <table>
-      <thead>
-        <tr>
-          <th>ቀን</th>
-          <th>ስም</th>
-          <th>ስልክ</th>
-          <th>ቀበሌ</th>
-          <th>አገልግሎት</th>
-          <th>ቅሬታ</th>
-          <th>እርምጃ</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${complaints.slice().reverse().map(item=>`
-          <tr>
-            <td>${escapeHTML(item.date)}</td>
-            <td>${escapeHTML(item.name)}</td>
-            <td>${escapeHTML(item.phone)}</td>
-            <td>${escapeHTML(item.kebele)}</td>
-            <td>${escapeHTML(item.service)}</td>
-            <td>${escapeHTML(item.message)}</td>
-            <td><button class="btn danger" onclick="deleteComplaint(${Number(item.id)})">ሰርዝ</button></td>
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>`;
+/* ADMIN: COMPLAINTS */
+async function loadAdminComplaints(){
+if(!currentProfile||currentProfile.role!=="admin")return;
+const box=document.getElementById("complaintsTable");
+box.innerHTML='<div class="empty">በመጫን ላይ...</div>';
+try{
+const snap=await db.collection("ch_complaints").orderBy("createdAt","desc").get();
+complaints=snap.docs.map(d=>({id:d.id,...d.data()}));
+document.getElementById("complaintCount").textContent=complaints.length;
+if(!complaints.length){box.innerHTML='<div class="empty">እስካሁን ቅሬታ አልቀረበም።</div>';return;}
+box.innerHTML=`<table><thead><tr><th>ቀን</th><th>ስም</th><th>ስልክ</th><th>ቀበሌ</th><th>ዘርፍ</th><th>ቅሬታ</th><th>ሁኔታ</th><th>እርምጃ</th></tr></thead><tbody>
+${complaints.map(c=>`<tr><td>${c.createdAt&&c.createdAt.toDate?escapeHTML(c.createdAt.toDate().toLocaleString("am-ET")):""}</td>
+<td>${escapeHTML(c.name)}</td><td>${escapeHTML(c.phone)}</td><td>${escapeHTML(c.kebele)}</td>
+<td>${escapeHTML(c.service)}</td><td>${escapeHTML(c.message)}</td><td>${escapeHTML(c.status||"አዲስ")}</td>
+<td><button class="btn danger" onclick="deleteComplaint('${c.id}')">ሰርዝ</button></td></tr>`).join("")}</tbody></table>`;
+}catch(e){console.error(e);box.innerHTML='<div class="empty">ቅሬታዎችን ማንበብ አልተቻለም።</div>';}
+}
+async function deleteComplaint(id){
+if(!currentProfile||currentProfile.role!=="admin")return;
+if(!confirm("ይህን ቅሬታ መሰረዝ ይፈልጋሉ?"))return;
+try{
+await db.collection("ch_complaints").doc(id).delete();
+showToast("ቅሬታው ተሰርዟል።");
+loadAdminComplaints();
+}catch(e){showToast("መሰረዝ አልተቻለም።");}
 }
 
-function deleteComplaint(id){
-  if(!confirm("ይህን ቅሬታ መሰረዝ ይፈልጋሉ?")) return;
-
-  complaints=getData("ch_complaints",[]);
-  complaints=complaints.filter(item=>Number(item.id)!==Number(id));
-
-  if(saveData("ch_complaints",complaints)){
-    renderComplaints();
-    updateStats();
-    showToast("ቅሬታው ተሰርዟል።");
-  }
-}
-
-/* =========================
-   ADD NEWS
-========================= */
-
-document.getElementById("newsForm").addEventListener("submit",function(event){
-  event.preventDefault();
-
-  if(!checkAdmin()){
-    showToast("እባክዎ እንደ አስተዳዳሪ ይግቡ።");
-    return;
-  }
-
-  const item={
-    id:Date.now(),
-    title:document.getElementById("newsTitle").value.trim(),
-    category:document.getElementById("newsCategory").value,
-    body:document.getElementById("newsBody").value.trim(),
-    date:new Date().toLocaleDateString("am-ET")
-  };
-
-  if(!item.title || !item.body){
-    showToast("የዜናውን ርዕስና ዝርዝር ያስገቡ።");
-    return;
-  }
-
-  news=getData("ch_news",[]);
-  news.push(item);
-
-  if(saveData("ch_news",news)){
-    this.reset();
-    renderNews();
-    updateStats();
-    showToast("ዜናው ታትሟል።");
-  }
+/* ADMIN: ADD NEWS */
+document.getElementById("newsForm").addEventListener("submit",async function(e){
+e.preventDefault();
+if(!currentProfile||currentProfile.role!=="admin"){showToast("የአስተዳዳሪ ፈቃድ ያስፈልጋል።");return;}
+const item={
+title:document.getElementById("newsTitle").value.trim(),
+category:document.getElementById("newsCategory").value,
+body:document.getElementById("newsBody").value.trim(),
+date:new Date().toLocaleDateString("am-ET"),
+createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+createdBy:currentUser.uid
+};
+if(!item.title||!item.body)return;
+try{
+await db.collection("ch_news").add(item);
+this.reset();
+showToast("ዜናው በተሳካ ሁኔታ ታትሟል።");
+}catch(e){console.error(e);showToast("ዜናውን ማተም አልተቻለም።");}
 });
 
-/* =========================
-   STATISTICS
-========================= */
+/* ADMIN: ASSIGN TASK */
+document.getElementById("taskForm").addEventListener("submit",async function(e){
+e.preventDefault();
+if(!currentProfile||currentProfile.role!=="admin")return;
+const serviceId=document.getElementById("taskService").value;
+const service=services.find(s=>s.id===serviceId);
+const title=document.getElementById("taskTitle").value.trim();
+const description=document.getElementById("taskDescription").value.trim();
+if(!service||!title||!description){showToast("ሁሉንም ቦታዎች ይሙሉ።");return;}
+try{
+await db.collection("ch_tasks").add({
+title,description,serviceId,serviceName:service.name,
+status:"ተመድቧል",
+sectorResponse:"",
+sectorStatus:"በመጠባበቅ ላይ",
+createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+createdBy:currentUser.uid,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+this.reset();
+showToast("ሥራው ለዘርፉ ተመድቧል።");
+}catch(e){console.error(e);showToast("ሥራ መመደብ አልተቻለም።");}
+});
 
-function updateStats(){
-  news=getData("ch_news",[]);
-  complaints=getData("ch_complaints",[]);
-  document.getElementById("newsCount").textContent=news.length;
-  document.getElementById("complaintCount").textContent=complaints.length;
+/* ADMIN: ALL TASKS */
+async function loadAllTasks(){
+if(!currentProfile||currentProfile.role!=="admin")return;
+const box=document.getElementById("allTasksTable");
+box.innerHTML='<div class="empty">በመጫን ላይ...</div>';
+try{
+const snap=await db.collection("ch_tasks").orderBy("createdAt","desc").get();
+tasks=snap.docs.map(d=>({id:d.id,...d.data()}));
+if(!tasks.length){box.innerHTML='<div class="empty">ገና ሥራ አልተመደበም።</div>';return;}
+box.innerHTML=`<table><thead><tr><th>ርዕስ</th><th>ዘርፍ</th><th>ዝርዝር</th><th>ምላሽ</th><th>ሁኔታ</th></tr></thead><tbody>
+${tasks.map(t=>`<tr><td>${escapeHTML(t.title)}</td><td>${escapeHTML(t.serviceName||t.serviceId)}</td>
+<td>${escapeHTML(t.description)}</td><td>${escapeHTML(t.sectorResponse||"ምላሽ የለም")}</td>
+<td>${escapeHTML(t.sectorStatus||t.status||"")}</td></tr>`).join("")}</tbody></table>`;
+}catch(e){console.error(e);box.innerHTML='<div class="empty">ሥራዎችን ማንበብ አልተቻለም።</div>';}
 }
 
-/* =========================
-   START APPLICATION
-========================= */
+/* SECTOR: OWN TASKS */
+async function loadSectorTasks(){
+if(!currentProfile||currentProfile.role!=="sector")return;
+const box=document.getElementById("sectorTasks");
+box.innerHTML='<div class="empty">ሥራዎች በመጫን ላይ...</div>';
+try{
+const snap=await db.collection("ch_tasks")
+.where("serviceId","==",currentProfile.serviceId).get();
+const list=snap.docs.map(d=>({id:d.id,...d.data()}));
+if(!list.length){box.innerHTML='<div class="card empty">ለዘርፉ የተመደበ ሥራ የለም።</div>';return;}
+box.innerHTML=list.map(t=>`
+<div class="form-card" style="margin:15px 0;max-width:100%">
+<h3>${escapeHTML(t.title)}</h3>
+<p>${escapeHTML(t.description)}</p>
+<p><strong>ሁኔታ፦</strong> ${escapeHTML(t.sectorStatus||t.status||"ተመድቧል")}</p>
+<div class="field"><label>የዘርፉ ምላሽ</label>
+<textarea id="response_${t.id}" maxlength="3000">${escapeHTML(t.sectorResponse||"")}</textarea></div>
+<div class="field"><label>የሥራ ሁኔታ</label>
+<select id="status_${t.id}">
+<option value="በመስራት ላይ" ${t.sectorStatus==="በመስራት ላይ"?"selected":""}>በመስራት ላይ</option>
+<option value="ተጠናቋል" ${t.sectorStatus==="ተጠናቋል"?"selected":""}>ተጠናቋል</option>
+<option value="ችግር አለ" ${t.sectorStatus==="ችግር አለ"?"selected":""}>ችግር አለ</option>
+</select></div>
+<button class="btn" onclick="sendSectorResponse('${t.id}')">ምላሹን ላክ</button>
+</div>`).join("");
+}catch(e){console.error(e);box.innerHTML='<div class="empty">ሥራዎችን ማምጣት አልተቻለም።</div>';}
+}
+async function sendSectorResponse(id){
+if(!currentProfile||currentProfile.role!=="sector")return;
+const response=document.getElementById("response_"+id).value.trim();
+const status=document.getElementById("status_"+id).value;
+try{
+await db.collection("ch_tasks").doc(id).update({
+sectorResponse:response,
+sectorStatus:status,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+showToast("የዘርፉ ምላሽ ተልኳል።");
+}catch(e){console.error(e);showToast("ምላሹን መላክ አልተቻለም።");}
+}
 
+/* START */
 function initApp(){
-  renderServices();
-  renderKebeles();
-  renderNews();
-  updateStats();
-  refreshAdmin();
+renderServices();
+renderKebeles();
+renderNews();
 }
-
 initApp();
-
 </script>
 </body>
 </html>
