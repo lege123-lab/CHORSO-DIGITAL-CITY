@@ -41,6 +41,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px;min-height:70vh}
 .btn.light{background:white;color:var(--green)}
 .btn.danger{background:var(--red)}
 .btn.gray{background:#e8efec;color:var(--ink)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
 .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:30px 0 16px}
 .section-title h2{font-size:21px;margin:0}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0}
@@ -185,8 +186,8 @@ main{padding:13px}.hero{padding:32px 19px}.hero h2{font-size:25px}
 <div id="loginBox" class="form-card">
 <p>በተመዘገበው የኢሜይል አድራሻና ይለፍ ቃል ይግቡ።</p>
 <form id="loginForm">
-<div class="field"><label for="loginEmail">ኢሜይል</label><input id="loginEmail" type="email" required autocomplete="username" placeholder="የኢሜይል አድራሻ"></div>
-<div class="field"><label for="loginPassword">ይለፍ ቃል</label><input id="loginPassword" type="password" required autocomplete="current-password" placeholder="ይለፍ ቃል"></div>
+<div class="field"><label for="loginEmail">ኢሜይል</label><input id="loginEmail" type="email" value="chorso.admin@gmail.com" required autocomplete="username" placeholder="የኢሜይል አድራሻ"></div>
+<div class="field"><label for="loginPassword">የአሁኑ ይለፍ ቃል</label><input id="loginPassword" type="password" required autocomplete="current-password" placeholder="የአሁኑ ይለፍ ቃል"></div>
 <button class="btn" type="submit" id="loginButton">ግባ</button>
 </form>
 </div>
@@ -245,6 +246,27 @@ main{padding:13px}.hero{padding:32px 19px}.hero h2{font-size:25px}
 <div class="notice">የዘርፍዎን ሥራዎች ከታች ይመልከቱ፤ ምላሽዎንም ያስገቡ።</div>
 <div id="sectorTasks"></div>
 </div>
+
+<!-- PASSWORD CHANGE -->
+<div id="passwordChangeBox" class="form-card hidden" style="margin-top:20px">
+<h3>🔐 የይለፍ ቃል ቀይር</h3>
+<p>የአሁኑን ይለፍ ቃል በማረጋገጥ አዲስ ይለፍ ቃል ያዘጋጁ።</p>
+<form id="changePasswordForm">
+<div class="field">
+<label for="oldPassword">የቀድሞ ይለፍ ቃል</label>
+<input id="oldPassword" type="password" required autocomplete="current-password">
+</div>
+<div class="field">
+<label for="newPassword">አዲስ ይለፍ ቃል</label>
+<input id="newPassword" type="password" required minlength="6" autocomplete="new-password">
+</div>
+<div class="field">
+<label for="confirmNewPassword">አዲሱን ይለፍ ቃል እንደገና አስገባ</label>
+<input id="confirmNewPassword" type="password" required minlength="6" autocomplete="new-password">
+</div>
+<button class="btn" type="submit" id="changePasswordButton">ፓስወርድ ቀይር</button>
+</form>
+</div>
 </section>
 </main>
 
@@ -286,7 +308,7 @@ const kebeles=[
 ];
 
 const services=[
-{id:"admin",name:"አስተዳደር",icon:"🏛️",desc:"የጮርሶ ወረዳ አጠቃላይ አስተዳደርና የመንግሥት አገልግሎቶች"},
+{id:"admin",name:"የወረዳ አስተዳደር",icon:"🏛️",desc:"የጮርሶ ወረዳ አጠቃላይ አስተዳደርና የመንግሥት አገልግሎቶች"},
 {id:"agriculture",name:"ግብርና",icon:"🌱",desc:"የግብርና ልማት፣ የሰብልና የአርሶ አደር ድጋፍ"},
 {id:"health",name:"ጤና",icon:"🏥",desc:"የጤና አገልግሎትና የጤና መረጃ"},
 {id:"education",name:"ትምህርት",icon:"📚",desc:"የትምህርት ተቋማትና አገልግሎቶች"},
@@ -301,7 +323,7 @@ const services=[
 ];
 
 const serviceDetails={
-admin:["አስተዳደር","የጮርሶ ወረዳን አጠቃላይ አስተዳደራዊ ጉዳዮችና የሕዝብ ጥያቄዎች ማስተባበር።","የአስተዳደር መረጃ፣ የሕዝብ ጥያቄ፣ የወረዳ አገልግሎቶች።"],
+admin:["የወረዳ አስተዳደር","የጮርሶ ወረዳን አጠቃላይ አስተዳደራዊ ጉዳዮችና የሕዝብ ጥያቄዎች ማስተባበር።","የአስተዳደር መረጃ፣ የሕዝብ ጥያቄ፣ የወረዳ አገልግሎቶች።"],
 agriculture:["ግብርና","የአርሶ አደሮችን የምርት አቅም ማሳደግ።","የሰብል ምርት፣ የቡና ልማት፣ የግብርና ምክር።"],
 health:["ጤና","የሕዝብ ጤናን ለመጠበቅ መረጃ ማቅረብ።","የጤና ጣቢያዎች፣ ክትባት።"],
 education:["ትምህርት","የትምህርት ጥራትና ተደራሽነት ማሻሻል።","ትምህርት ቤቶች፣ ምዝገባ።"],
@@ -321,9 +343,10 @@ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt
 }
 function showToast(message){
 const t=document.getElementById("toast");
-t.textContent=message;t.style.display="block";
+t.textContent=message;
+t.style.display="block";
 clearTimeout(showToast.timer);
-showToast.timer=setTimeout(()=>t.style.display="none",3500);
+showToast.timer=setTimeout(()=>t.style.display="none",4000);
 }
 function toggleMenu(){document.getElementById("mainNav").classList.toggle("open")}
 function showPage(id,button){
@@ -403,7 +426,7 @@ createdAt:firebase.firestore.FieldValue.serverTimestamp()
 };
 if(!data.name||!data.phone||!data.kebele||!data.serviceId||!data.message)throw new Error("ሁሉንም ቦታዎች ይሙሉ።");
 
-/* Public complaint submissions use anonymous Firebase authentication */
+/* Make sure public submissions use anonymous authentication */
 if(auth.currentUser&&!auth.currentUser.isAnonymous){
 await auth.signOut();
 }
@@ -412,11 +435,13 @@ await auth.signInAnonymously();
 }
 await db.collection("ch_complaints").add(data);
 this.reset();
-showToast("ቅሬታዎ በስርዓቱ ተመዝግቧል።");
+showToast("ቅሬታዎ በስርዓቱ ተመዝግቧል۔");
 }catch(error){
 console.error(error);
 showToast("ቅሬታው አልተላከም። "+(error.code||error.message));
-}finally{button.disabled=false;}
+}finally{
+button.disabled=false;
+}
 });
 
 /* FIREBASE LOGIN */
@@ -433,7 +458,55 @@ showToast("መግቢያው ተሳክቷል።");
 }catch(error){
 console.error(error);
 showToast("መግባት አልተቻለም። ኢሜይልና ይለፍ ቃል ያረጋግጡ።");
-}finally{button.disabled=false;}
+}finally{
+button.disabled=false;
+}
+});
+
+/* CHANGE PASSWORD */
+document.getElementById("changePasswordForm").addEventListener("submit",async function(e){
+e.preventDefault();
+
+const oldPassword=document.getElementById("oldPassword").value;
+const newPassword=document.getElementById("newPassword").value;
+const confirmPassword=document.getElementById("confirmNewPassword").value;
+const button=document.getElementById("changePasswordButton");
+
+if(!auth.currentUser||auth.currentUser.isAnonymous){
+showToast("በአስተዳዳሪ ወይም በዘርፍ መለያ ይግቡ።");
+return;
+}
+if(newPassword.length<6){
+showToast("አዲሱ ፓስወርድ ቢያንስ 6 ቁምፊዎች ይኑሩት።");
+return;
+}
+if(newPassword!==confirmPassword){
+showToast("አዲሱ ፓስወርድ አይመሳሰልም።");
+return;
+}
+if(oldPassword===newPassword){
+showToast("አዲሱ ፓስወርድ ከቀድሞው የተለየ መሆን አለበት።");
+return;
+}
+
+button.disabled=true;
+try{
+const user=auth.currentUser;
+const credential=firebase.auth.EmailAuthProvider.credential(user.email,oldPassword);
+await user.reauthenticateWithCredential(credential);
+await user.updatePassword(newPassword);
+this.reset();
+showToast("የይለፍ ቃልዎ በተሳካ ሁኔታ ተቀይሯል።");
+}catch(error){
+console.error(error);
+if(error.code==="auth/wrong-password"||error.code==="auth/invalid-credential"){
+showToast("የቀድሞው ፓስወርድ ትክክል አይደለም።");
+}else{
+showToast("ፓስወርድ መቀየር አልተቻለም። "+(error.message||""));
+}
+}finally{
+button.disabled=false;
+}
 });
 
 /* AUTH STATE AND USER ROLE */
@@ -446,8 +519,7 @@ refreshDashboard();
 return;
 }
 
-/* Anonymous users are for citizen complaint submission only.
-   Do not sign them out automatically. */
+/* Anonymous users are for citizen complaint submission only */
 if(user.isAnonymous){
 refreshDashboard();
 return;
@@ -477,12 +549,15 @@ function refreshDashboard(){
 const login=document.getElementById("loginBox");
 const admin=document.getElementById("adminDashboard");
 const sector=document.getElementById("sectorDashboard");
+const passwordBox=document.getElementById("passwordChangeBox");
+
 const isAdmin=!!(currentProfile&&currentProfile.role==="admin");
 const isSector=!!(currentProfile&&currentProfile.role==="sector");
 
 login.classList.toggle("hidden",isAdmin||isSector);
 admin.classList.toggle("hidden",!isAdmin);
 sector.classList.toggle("hidden",!isSector);
+passwordBox.classList.toggle("hidden",!(isAdmin||isSector));
 
 if(isAdmin){
 loadAdminComplaints();
